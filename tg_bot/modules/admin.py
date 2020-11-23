@@ -35,7 +35,7 @@ def promote(bot: Bot, update: Update, args: List[str]) -> str:
     user_id = extract_user(message, args)
 
     if not user_id:
-        message.reply_text("You don't seem to be referring to a user.")
+        message.reply_text("Anda sepertinya tidak mengacu pada pengguna.")
         return log_message
 
     try:
@@ -44,11 +44,11 @@ def promote(bot: Bot, update: Update, args: List[str]) -> str:
         return log_message
 
     if user_member.status == "administrator" or user_member.status == "creator":
-        message.reply_text("How am I meant to promote someone that's already an admin?")
+        message.reply_text("Bagaimana maksud saya untuk mempromosikan seseorang yang sudah menjadi admin?")
         return log_message
 
     if user_id == bot.id:
-        message.reply_text("I can't promote myself! Get an admin to do it for me.")
+        message.reply_text("Saya tidak dapat mempromosikan diri saya sendiri! Dapatkan admin untuk melakukannya untuk saya.")
         return log_message
 
     # set same perms as bot - bot can't assign higher perms than itself!
@@ -69,10 +69,10 @@ def promote(bot: Bot, update: Update, args: List[str]) -> str:
         )
     except BadRequest as err:
         if err.message == "User_not_mutual_contact":
-            message.reply_text("I can't promote someone who isn't in the group.")
+            message.reply_text("Saya tidak dapat mempromosikan seseorang yang tidak ada di grup.")
             return log_message
         else:
-            message.reply_text("An error occured while promoting.")
+            message.reply_text("Terjadi kesalahan saat mempromosikan.")
             return log_message
 
     bot.sendMessage(
@@ -85,7 +85,7 @@ def promote(bot: Bot, update: Update, args: List[str]) -> str:
         f"<b>{html.escape(chat.title)}:</b>\n"
         "#PROMOTED\n"
         f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-        f"<b>User:</b> {mention_html(user_member.user.id, user_member.user.first_name)}"
+        f"<b>Pengguna:</b> {mention_html(user_member.user.id, user_member.user.first_name)}"
     )
 
     return log_message
@@ -105,7 +105,7 @@ def demote(bot: Bot, update: Update, args: List[str]) -> str:
 
     user_id = extract_user(message, args)
     if not user_id:
-        message.reply_text("You don't seem to be referring to a user.")
+        message.reply_text("Anda sepertinya tidak mengacu pada pengguna.")
         return log_message
 
     try:
@@ -114,15 +114,15 @@ def demote(bot: Bot, update: Update, args: List[str]) -> str:
         return log_message
 
     if user_member.status == "creator":
-        message.reply_text("This person CREATED the chat, how would I demote them?")
+        message.reply_text("Orang ini MENCIPTAKAN obrolan, bagaimana cara saya menurunkannya?")
         return log_message
 
     if not user_member.status == "administrator":
-        message.reply_text("Can't demote what wasn't promoted!")
+        message.reply_text("Tidak dapat menurunkan apa yang tidak dipromosikan!")
         return log_message
 
     if user_id == bot.id:
-        message.reply_text("I can't demote myself! Get an admin to do it for me.")
+        message.reply_text("Saya tidak bisa menurunkan diri! Dapatkan admin untuk melakukannya untuk saya.")
         return log_message
 
     try:
@@ -149,14 +149,14 @@ def demote(bot: Bot, update: Update, args: List[str]) -> str:
             f"<b>{html.escape(chat.title)}:</b>\n"
             f"#DEMOTED\n"
             f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-            f"<b>User:</b> {mention_html(user_member.user.id, user_member.user.first_name)}"
+            f"<b>Pengguna:</b> {mention_html(user_member.user.id, user_member.user.first_name)}"
         )
 
         return log_message
     except BadRequest:
         message.reply_text(
-            "Could not demote. I might not be admin, or the admin status was appointed by another"
-            "user, so I can't act upon them!"
+            "Tidak bisa menurunkan. Saya mungkin bukan admin, atau status admin diangkat oleh orang lain"
+            "pengguna, jadi saya tidak bisa menindaklanjutinya!"
         )
         return log_message
 
@@ -178,34 +178,34 @@ def set_title(bot: Bot, update: Update, args: List[str]):
         return
 
     if not user_id:
-        message.reply_text("You don't seem to be referring to a user.")
+        message.reply_text("Anda sepertinya tidak mengacu pada pengguna.")
         return
 
     if user_member.status == "creator":
         message.reply_text(
-            "This person CREATED the chat, how can i set custom title for him?"
+            "Orang ini MENCIPTAKAN obrolan, bagaimana saya dapat menyetel judul khusus untuknya?"
         )
         return
 
     if not user_member.status == "administrator":
         message.reply_text(
-            "Can't set title for non-admins!\nPromote them first to set custom title!"
+            "Tidak dapat menyetel judul untuk non-admin!\nPromosikan mereka terlebih dahulu untuk menyetel judul khusus!"
         )
         return
 
     if user_id == bot.id:
         message.reply_text(
-            "I can't set my own title myself! Get the one who made me admin to do it for me."
+            "Saya tidak dapat menetapkan judul saya sendiri! Dapatkan orang yang menjadikan saya admin untuk melakukannya untuk saya."
         )
         return
 
     if not title:
-        message.reply_text("Setting blank title doesn't do anything!")
+        message.reply_text("Menyetel judul kosong tidak akan menghasilkan apa-apa!")
         return
 
     if len(title) > 16:
         message.reply_text(
-            "The title length is longer than 16 characters.\nTruncating it to 16 characters."
+            "Panjang judul lebih dari 16 karakter.\nPotong menjadi 16 karakter."
         )
 
     result = requests.post(
@@ -227,10 +227,10 @@ def set_title(bot: Bot, update: Update, args: List[str]):
         description = result.json()["description"]
         if (
             description
-            == "Bad Request: not enough rights to change custom title of the user"
+            == "Permintaan Buruk: tidak cukup hak untuk mengubah judul khusus pengguna"
         ):
             message.reply_text(
-                "I can't set custom title for admins that I didn't promote!"
+                "Saya tidak dapat menyetel judul khusus untuk admin yang tidak saya promosikan!"
             )
 
 
@@ -314,11 +314,11 @@ def invite(bot: Bot, update: Update):
             update.effective_message.reply_text(invitelink)
         else:
             update.effective_message.reply_text(
-                "I don't have access to the invite link, try changing my permissions!"
+                "Saya tidak memiliki akses ke tautan undangan, coba ubah izin saya!"
             )
     else:
         update.effective_message.reply_text(
-            "I can only give you invite links for supergroups and channels, sorry!"
+            "Saya hanya dapat memberi Anda tautan undangan untuk supergrup dan saluran, maaf!"
         )
 
 
@@ -357,15 +357,15 @@ def __chat_settings__(chat_id, user_id):
 
 
 __help__ = """
- - /adminlist: list of admins in the chat
+ - /adminlist: daftar admin dalam obrolan
 
 *Admin only:*
- - /pin: silently pins the message replied to - add 'loud' or 'notify' to give notifs to users.
- - /unpin: unpins the currently pinned message
- - /invitelink: gets invitelink
- - /promote: promotes the user replied to
- - /demote: demotes the user replied to
- - /settitle: sets a custom title for an admin that the bot promoted
+ - /pin: diam-diam pin pesan yang dibalas - tambahkan 'nyaring' atau 'beri tahu' untuk memberi pemberitahuan kepada pengguna.
+ - /unpin: melepas pesan yang saat ini disematkan
+ - /invitelink: mendapat invitelink
+ - /promote: menaikkan jabatan pengguna
+ - /demote: menurunkan jabatan pengguna
+ - /settitle: menetapkan judul khusus untuk admin yang dipromosikan bot
 """
 
 ADMINLIST_HANDLER = DisableAbleCommandHandler(["adminlist", "admins"], adminlist)
