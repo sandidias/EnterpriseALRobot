@@ -40,35 +40,34 @@ from tg_bot.modules.helper_funcs.chat_status import is_user_admin
 from tg_bot.modules.helper_funcs.misc import paginate_modules
 
 PM_START_TEXT = """
-Hi {}, my name is {}! 
-I am an Anime themed group management bot with some fun extras [;)](https://telegra.ph/file/095d7e696096e21b06447.jpg)
+Hai {}, perkenalkan nama saya {}! 
+Saya adalah bot manajemen grup bertema Anime dengan beberapa ekstra menyenangkan [;)](https://telegra.ph/file/d99a35ca14f8a1b01abbf.jpg)
 
-You can find the list of available commands with /help.
+Anda dapat menemukan daftar perintah yang tersedia dengan ketik /help.
 """
 
 HELP_STRINGS = """
-Hey there! My name is *{}*.
-I'm a part of *Eagle Union*
-Have a look at the following for an idea of some of \
-the things I can help you with.
-*Main* commands available:
- - /start: start the bot
- - /help: PM's you this message.
- - /help <module name>: PM's you info about that module.
+Hei, di sana! Namaku adalah *{}*.
+Lihatlah yang berikut ini untuk mendapatkan gambaran tentang beberapa \
+hal-hal yang dapat saya bantu.
+*Perintah utama* yang tersedia:
+ - /start: mulai bot
+ - /help: PM Anda dengan pesan ini.
+ - /help <module name>: PM Anda dengan info tentang modul itu.
  - /settings:
-   - in PM: will send you your settings for all supported modules.
-   - in a group: will redirect you to pm, with all that chat's settings.
+   - di PM: akan mengirimkan pengaturan Anda untuk semua modul yang didukung.
+   - dalam grup: akan mengarahkan Anda ke pm, dengan semua pengaturan obrolan itu.
 {}
-And the following:
+Dan berikut ini:
 """.format(
     dispatcher.bot.first_name,
-    "" if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n",
+    "" if not ALLOW_EXCL else "\nSemua perintah bisa digunakan dengan / atau !. \n",
 )
 
 
-KIGYO_IMG = "https://telegra.ph/file/e5100e06c03767af80023.jpg"
+KIGYO_IMG = "https://telegra.ph/file/d99a35ca14f8a1b01abbf.jpg"
 
-DONATE_STRING = """I'm free for everyone!! """
+DONATE_STRING = """Saya bebas untuk semua orang!! """
 
 IMPORTED = {}
 MIGRATEABLE = []
@@ -167,24 +166,16 @@ def start(bot: Bot, update: Update, args: List[str]):
                 reply_markup=InlineKeyboardMarkup(
                     [[
                         InlineKeyboardButton(
-                            text="Add Kigyo to your group",
+                            text="Tambahkan Chizuru ke grup Anda",
                             url="t.me/{}?startgroup=true".format(bot.username))
                     ],
                     [
                         InlineKeyboardButton(
-                            text="Support Chat // Eagle Union",
-                            url=f"https://t.me/YorktownEagleUnion"),
-                        InlineKeyboardButton(
-                            text="Kigyo Updates Channel",
-                            url="https://t.me/KigyoUpdates")
-                    ],
-                    [
-                        InlineKeyboardButton(
                             text="Source code (Licensed under GPLv3)",
-                            url="https://github.com/Dank-del/EnterpriseALRobot")
+                            url="https://github.com/HayakaRyu/EnterpriseALRobot")
                     ]]))
     else:
-        update.effective_message.reply_text("Hi, I'm Kigyo.")
+        update.effective_message.reply_text("Hai, saya Chizuru.")
 
 
 # for test purposes
@@ -282,7 +273,7 @@ def get_help(bot: Bot, update: Update):
     if chat.type != chat.PRIVATE:
 
         update.effective_message.reply_text(
-            "Contact me in PM to get the list of possible commands.",
+            "Hubungi saya di PM untuk mendapatkan daftar kemungkinan perintah.",
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
@@ -298,7 +289,7 @@ def get_help(bot: Bot, update: Update):
     elif len(args) >= 2 and any(args[1].lower() == x for x in HELPABLE):
         module = args[1].lower()
         text = (
-            "Here is the available help for the *{}* module:\n".format(
+            "Berikut adalah bantuan yang tersedia untuk modul *{}*:\n".format(
                 HELPABLE[module].__mod_name__
             )
             + HELPABLE[module].__help__
@@ -307,7 +298,7 @@ def get_help(bot: Bot, update: Update):
             chat.id,
             text,
             InlineKeyboardMarkup(
-                [[InlineKeyboardButton(text="Back", callback_data="help_back")]]
+                [[InlineKeyboardButton(text="Kembali", callback_data="help_back")]]
             ),
         )
 
@@ -324,14 +315,14 @@ def send_settings(chat_id, user_id, user=False):
             )
             dispatcher.bot.send_message(
                 user_id,
-                "These are your current settings:" + "\n\n" + settings,
+                "Ini adalah pengaturan Anda saat ini:" + "\n\n" + settings,
                 parse_mode=ParseMode.MARKDOWN,
             )
 
         else:
             dispatcher.bot.send_message(
                 user_id,
-                "Seems like there aren't any user specific settings available :'(",
+                "Sepertinya tidak ada pengaturan khusus pengguna yang tersedia :'(",
                 parse_mode=ParseMode.MARKDOWN,
             )
 
@@ -340,7 +331,7 @@ def send_settings(chat_id, user_id, user=False):
             chat_name = dispatcher.bot.getChat(chat_id).title
             dispatcher.bot.send_message(
                 user_id,
-                text="Which module would you like to check {}'s settings for?".format(
+                text="Modul mana yang ingin Anda periksa setelan {}?".format(
                     chat_name
                 ),
                 reply_markup=InlineKeyboardMarkup(
@@ -350,8 +341,8 @@ def send_settings(chat_id, user_id, user=False):
         else:
             dispatcher.bot.send_message(
                 user_id,
-                "Seems like there aren't any chat settings available :'(\nSend this "
-                "in a group chat you're admin in to find its current settings!",
+                "Sepertinya tidak ada pengaturan obrolan yang tersedia: '(\nKirim ini "
+                "dalam obrolan grup tempat Anda menjadi admin untuk menemukan pengaturannya saat ini!",
                 parse_mode=ParseMode.MARKDOWN,
             )
 
@@ -369,7 +360,7 @@ def settings_button(bot: Bot, update: Update):
             chat_id = mod_match.group(1)
             module = mod_match.group(2)
             chat = bot.get_chat(chat_id)
-            text = "*{}* has the following settings for the *{}* module:\n\n".format(
+            text = "*{}* memiliki pengaturan berikut untuk modul *{}*:\n\n".format(
                 escape_markdown(chat.title), CHAT_SETTINGS[module].__mod_name__
             ) + CHAT_SETTINGS[module].__chat_settings__(chat_id, user.id)
             query.message.reply_text(
@@ -379,7 +370,7 @@ def settings_button(bot: Bot, update: Update):
                     [
                         [
                             InlineKeyboardButton(
-                                text="Back",
+                                text="Kembali",
                                 callback_data="stngs_back({})".format(chat_id),
                             )
                         ]
@@ -392,8 +383,8 @@ def settings_button(bot: Bot, update: Update):
             curr_page = int(prev_match.group(2))
             chat = bot.get_chat(chat_id)
             query.message.reply_text(
-                "Hi there! There are quite a few settings for {} - go ahead and pick what "
-                "you're interested in.".format(chat.title),
+                "Halo yang disana! Ada beberapa setelan untuk {} - lanjutkan dan pilih apa "
+                "yang Anda tertarik.".format(chat.title),
                 reply_markup=InlineKeyboardMarkup(
                     paginate_modules(
                         curr_page - 1, CHAT_SETTINGS, "stngs", chat=chat_id
@@ -406,8 +397,8 @@ def settings_button(bot: Bot, update: Update):
             next_page = int(next_match.group(2))
             chat = bot.get_chat(chat_id)
             query.message.reply_text(
-                "Hi there! There are quite a few settings for {} - go ahead and pick what "
-                "you're interested in.".format(chat.title),
+                "Halo yang disana! Ada beberapa setelan untuk {} - lanjutkan dan pilih apa "
+                "yang Anda tertarik.".format(chat.title),
                 reply_markup=InlineKeyboardMarkup(
                     paginate_modules(
                         next_page + 1, CHAT_SETTINGS, "stngs", chat=chat_id
@@ -419,8 +410,8 @@ def settings_button(bot: Bot, update: Update):
             chat_id = back_match.group(1)
             chat = bot.get_chat(chat_id)
             query.message.reply_text(
-                text="Hi there! There are quite a few settings for {} - go ahead and pick what "
-                "you're interested in.".format(escape_markdown(chat.title)),
+                text="Halo yang disana! Ada beberapa setelan untuk {} - lanjutkan dan pilih apa "
+                "yang Anda tertarik.".format(escape_markdown(chat.title)),
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=InlineKeyboardMarkup(
                     paginate_modules(0, CHAT_SETTINGS, "stngs", chat=chat_id)
@@ -431,11 +422,11 @@ def settings_button(bot: Bot, update: Update):
         bot.answer_callback_query(query.id)
         query.message.delete()
     except BadRequest as excp:
-        if excp.message == "Message is not modified":
+        if excp.message == "Pesan tidak diubah":
             pass
         elif excp.message == "Query_id_invalid":
             pass
-        elif excp.message == "Message can't be deleted":
+        elif excp.message == "Pesan tidak dapat dihapus":
             pass
         else:
             LOGGER.exception("Exception in settings buttons. %s", str(query.data))
@@ -451,14 +442,14 @@ def get_settings(bot: Bot, update: Update):
     # ONLY send settings in PM
     if chat.type != chat.PRIVATE:
         if is_user_admin(chat, user.id):
-            text = "Click here to get this chat's settings, as well as yours."
+            text = "Klik di sini untuk mendapatkan pengaturan obrolan ini, serta milik Anda."
             msg.reply_text(
                 text,
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
                             InlineKeyboardButton(
-                                text="Settings",
+                                text="Pengaturan",
                                 url="t.me/{}?start=stngs_{}".format(
                                     bot.username, chat.id
                                 ),
@@ -468,7 +459,7 @@ def get_settings(bot: Bot, update: Update):
                 ),
             )
         else:
-            text = "Click here to check your settings."
+            text = "Klik di sini untuk memeriksa pengaturan Anda."
 
     else:
         send_settings(chat.id, user.id, True)
@@ -484,9 +475,9 @@ def donate(bot: Bot, update: Update):
             DONATE_STRING, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True
         )
 
-        if OWNER_ID != 254318997 and DONATION_LINK:
+        if OWNER_ID != 1025855210 and DONATION_LINK:
             update.effective_message.reply_text(
-                "You can also donate to the person currently running me "
+                "Anda juga dapat menyumbang kepada orang yang saat ini menjalankan saya "
                 "[here]({})".format(DONATION_LINK),
                 parse_mode=ParseMode.MARKDOWN,
             )
@@ -501,11 +492,11 @@ def donate(bot: Bot, update: Update):
             )
 
             update.effective_message.reply_text(
-                "I've PM'ed you about donating to my creator!"
+                "Saya telah memberi tahu Anda tentang menyumbang kepada pembuat saya!"
             )
         except Unauthorized:
             update.effective_message.reply_text(
-                "Contact me in PM first to get donation information."
+                "Hubungi saya di PM dulu untuk mendapatkan informasi donasi."
             )
 
 
@@ -524,7 +515,7 @@ def migrate_chats(bot: Bot, update: Update):
     for mod in MIGRATEABLE:
         mod.__migrate__(old_chat, new_chat)
 
-    LOGGER.info("Successfully migrated!")
+    LOGGER.info("Berhasil bermigrasi!")
     raise DispatcherHandlerStop
 
 
