@@ -117,13 +117,13 @@ if is_module_loaded(FILENAME):
         if log_channel:
             log_channel_info = bot.get_chat(log_channel)
             message.reply_text(
-                f"This group has all it's logs sent to:"
+                f"Grup ini memiliki semua log yang dikirim ke:"
                 f" {escape_markdown(log_channel_info.title)} (`{log_channel}`)",
                 parse_mode=ParseMode.MARKDOWN,
             )
 
         else:
-            message.reply_text("No log channel has been set for this group!")
+            message.reply_text("Tidak ada saluran log yang disetel untuk grup ini!")
 
     @run_async
     @user_admin
@@ -133,7 +133,7 @@ if is_module_loaded(FILENAME):
         chat = update.effective_chat
         if chat.type == chat.CHANNEL:
             message.reply_text(
-                "Now, forward the /setlog to the group you want to tie this channel to!"
+                "Sekarang, teruskan /setlog ke grup yang ingin Anda kaitkan dengan saluran ini!"
             )
 
         elif message.forward_from_chat:
@@ -151,22 +151,22 @@ if is_module_loaded(FILENAME):
             try:
                 bot.send_message(
                     message.forward_from_chat.id,
-                    f"This channel has been set as the log channel for {chat.title or chat.first_name}.",
+                    f"Saluran ini telah ditetapkan sebagai saluran log untuk {chat.title or chat.first_name}.",
                 )
             except Unauthorized as excp:
                 if excp.message == "Forbidden: bot is not a member of the channel chat":
-                    bot.send_message(chat.id, "Successfully set log channel!")
+                    bot.send_message(chat.id, "Berhasil menyetel saluran log!")
                 else:
                     LOGGER.exception("ERROR in setting the log channel.")
 
-            bot.send_message(chat.id, "Successfully set log channel!")
+            bot.send_message(chat.id, "Berhasil menyetel saluran log!")
 
         else:
             message.reply_text(
-                "The steps to set a log channel are:\n"
-                " - add bot to the desired channel\n"
-                " - send /setlog to the channel\n"
-                " - forward the /setlog to the group\n"
+                "Langkah-langkah untuk mengatur saluran log adalah:\n"
+                " - tambahkan bot ke saluran yang diinginkan\n"
+                " - kirim /setlog ke saluran\n"
+                " - meneruskan /setlog ke grup\n"
             )
 
     @run_async
@@ -179,15 +179,15 @@ if is_module_loaded(FILENAME):
         log_channel = sql.stop_chat_logging(chat.id)
         if log_channel:
             bot.send_message(
-                log_channel, f"Channel has been unlinked from {chat.title}"
+                log_channel, f"Tautan saluran telah dibatalkan dari {chat.title}"
             )
-            message.reply_text("Log channel has been un-set.")
+            message.reply_text("Saluran log telah dilepas.")
 
         else:
-            message.reply_text("No log channel has been set yet!")
+            message.reply_text("Tidak ada saluran log yang telah ditetapkan kamut!")
 
     def __stats__():
-        return f"{sql.num_logchannels()} log channels set."
+        return f"{sql.num_logchannels()} saluran log ditetapkan."
 
     def __migrate__(old_chat_id, new_chat_id):
         sql.migrate_chat(old_chat_id, new_chat_id)
@@ -196,19 +196,19 @@ if is_module_loaded(FILENAME):
         log_channel = sql.get_chat_log_channel(chat_id)
         if log_channel:
             log_channel_info = dispatcher.bot.get_chat(log_channel)
-            return f"This group has all it's logs sent to: {escape_markdown(log_channel_info.title)} (`{log_channel}`)"
-        return "No log channel is set for this group!"
+            return f"Grup ini memiliki semua log yang dikirim ke: {escape_markdown(log_channel_info.title)} (`{log_channel}`)"
+        return "Tidak ada saluran log yang disetel untuk grup ini!"
 
     __help__ = """
-*Admin only:*
-- /logchannel: get log channel info
-- /setlog: set the log channel.
-- /unsetlog: unset the log channel.
+*Admin saja:*
+- /logchannel: dapatkan info saluran log
+- /setlog: mengatur saluran log.
+- /unsetlog: hapus saluran log.
 
-Setting the log channel is done by:
-- adding the bot to the desired channel (as an admin!)
-- sending /setlog in the channel
-- forwarding the /setlog to the group
+Pengaturan saluran log dilakukan dengan:
+- menambahkan bot ke saluran yang diinginkan (sebagai admin!)
+- kirim /setlog di saluran
+- meneruskan /setlog ke grup
 """
 
     __mod_name__ = "Log Channels"
