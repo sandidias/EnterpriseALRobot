@@ -44,13 +44,13 @@ def generate_time(to_find: str, findtype: List[str]) -> str:
 
     try:
         result = (
-            f"<b>Country :</b> <code>{country_name}</code>\n"
-            f"<b>Zone Name :</b> <code>{country_zone}</code>\n"
-            f"<b>Country Code :</b> <code>{country_code}</code>\n"
+            f"<b>Negara :</b> <code>{country_name}</code>\n"
+            f"<b>Nama Zona :</b> <code>{country_zone}</code>\n"
+            f"<b>Kode negara :</b> <code>{country_code}</code>\n"
             f"<b>Daylight saving :</b> <code>{daylight_saving}</code>\n"
-            f"<b>Day :</b> <code>{current_day}</code>\n"
-            f"<b>Current Time :</b> <code>{current_time}</code>\n"
-            f"<b>Current Date :</b> <code>{current_date}</code>"
+            f"<b>DHariay :</b> <code>{current_day}</code>\n"
+            f"<b>Waktu saat ini :</b> <code>{current_time}</code>\n"
+            f"<b>Tanggal sekarang :</b> <code>{current_date}</code>"
         )
     except:
         result = None
@@ -65,10 +65,10 @@ def gettime(bot: Bot, update: Update):
     try:
         query = message.text.strip().split(" ", 1)[1]
     except:
-        message.reply_text("Provide a country name/abbreviation/timezone to find.")
+        message.reply_text("Berikan nama negara/singkatan/zona waktu untuk ditemukan.")
         return
     send_message = message.reply_text(
-        f"Finding timezone info for <b>{query}</b>", parse_mode=ParseMode.HTML
+        f"Menemukan info zona waktu untu <b>{query}</b>", parse_mode=ParseMode.HTML
     )
 
     query_timezone = query.lower()
@@ -79,7 +79,7 @@ def gettime(bot: Bot, update: Update):
 
     if not result:
         send_message.edit_text(
-            f"Timezone info not available for <b>{query}</b>", parse_mode=ParseMode.HTML
+            f"Info zona waktu tidak tersedia untuk <b>{query}</b>", parse_mode=ParseMode.HTML
         )
         return
 
