@@ -24,13 +24,13 @@ def load(bot: Bot, update: Update):
     message = update.effective_message
     text = message.text.split(" ", 1)[1]
     load_messasge = message.reply_text(
-        f"Attempting to load module : <b>{text}</b>", parse_mode=ParseMode.HTML
+        f"Mencoba memuat modul : <b>{text}</b>", parse_mode=ParseMode.HTML
     )
 
     try:
         imported_module = importlib.import_module("tg_bot.modules." + text)
     except:
-        load_messasge.edit_text("Does that module even exist?")
+        load_messasge.edit_text("Apakah modul itu ada?")
         return
 
     if not hasattr(imported_module, "__mod_name__"):
@@ -39,7 +39,7 @@ def load(bot: Bot, update: Update):
     if not imported_module.__mod_name__.lower() in IMPORTED:
         IMPORTED[imported_module.__mod_name__.lower()] = imported_module
     else:
-        load_messasge.edit_text("Module already loaded.")
+        load_messasge.edit_text("Modul sudah dimuat.")
         return
     if "__handlers__" in dir(imported_module):
         handlers = imported_module.__handlers__
@@ -51,7 +51,7 @@ def load(bot: Bot, update: Update):
                 dispatcher.add_handler(handler_name, priority)
     else:
         IMPORTED.pop(imported_module.__mod_name__.lower())
-        load_messasge.edit_text("The module cannot be loaded.")
+        load_messasge.edit_text("Modul tidak dapat dimuat.")
         return
 
     if hasattr(imported_module, "__help__") and imported_module.__help__:
@@ -80,7 +80,7 @@ def load(bot: Bot, update: Update):
         USER_SETTINGS[imported_module.__mod_name__.lower()] = imported_module
 
     load_messasge.edit_text(
-        "Successfully loaded module : <b>{}</b>".format(text), parse_mode=ParseMode.HTML
+        "Modul berhasil dimuat : <b>{}</b>".format(text), parse_mode=ParseMode.HTML
     )
 
 
@@ -90,13 +90,13 @@ def unload(bot: Bot, update: Update):
     message = update.effective_message
     text = message.text.split(" ", 1)[1]
     unload_messasge = message.reply_text(
-        f"Attempting to unload module : <b>{text}</b>", parse_mode=ParseMode.HTML
+        f"Mencoba membongkar modul : <b>{text}</b>", parse_mode=ParseMode.HTML
     )
 
     try:
         imported_module = importlib.import_module("tg_bot.modules." + text)
     except:
-        unload_messasge.edit_text("Does that module even exist?")
+        unload_messasge.edit_text("Apakah modul itu ada?")
         return
 
     if not hasattr(imported_module, "__mod_name__"):
@@ -104,13 +104,13 @@ def unload(bot: Bot, update: Update):
     if imported_module.__mod_name__.lower() in IMPORTED:
         IMPORTED.pop(imported_module.__mod_name__.lower())
     else:
-        unload_messasge.edit_text("Can't unload something that isn't loaded.")
+        unload_messasge.edit_text("Tidak dapat membongkar sesuatu yang tidak dimuat.")
         return
     if "__handlers__" in dir(imported_module):
         handlers = imported_module.__handlers__
         for handler in handlers:
             if type(handler) == bool:
-                unload_messasge.edit_text("This module can't be unloaded!")
+                unload_messasge.edit_text("Modul ini tidak dapat dibongkar!")
                 return
             elif type(handler) != tuple:
                 dispatcher.remove_handler(handler)
@@ -118,7 +118,7 @@ def unload(bot: Bot, update: Update):
                 handler_name, priority = handler
                 dispatcher.remove_handler(handler_name, priority)
     else:
-        unload_messasge.edit_text("The module cannot be unloaded.")
+        unload_messasge.edit_text("Modul tidak dapat dibongkar.")
         return
 
     if hasattr(imported_module, "__help__") and imported_module.__help__:
@@ -147,7 +147,7 @@ def unload(bot: Bot, update: Update):
         USER_SETTINGS.pop(imported_module.__mod_name__.lower())
 
     unload_messasge.edit_text(
-        f"Successfully unloaded module : <b>{text}</b>", parse_mode=ParseMode.HTML
+        f"Modul berhasil diturunkan : <b>{text}</b>", parse_mode=ParseMode.HTML
     )
 
 
@@ -163,7 +163,7 @@ def listmodules(bot: Bot, update: Update):
         file_name = file_info.__name__.rsplit("tg_bot.modules.", 1)[1]
         mod_name = file_info.__mod_name__
         module_list.append(f"- <code>{mod_name} ({file_name})</code>\n")
-    module_list = "Following modules are loaded : \n\n" + "".join(module_list)
+    module_list = "Modul berikut dimuat : \n\n" + "".join(module_list)
     message.reply_text(module_list, parse_mode=ParseMode.HTML)
 
 
