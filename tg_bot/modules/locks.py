@@ -140,14 +140,14 @@ def lock(bot: Bot, update: Update, args: List[str]) -> str:
             if args[0] in LOCK_TYPES:
                 sql.update_lock(chat.id, args[0], locked=True)
                 message.reply_text(
-                    "Locked {} messages for all non-admins!".format(args[0])
+                    "Pesan {} terkunci untuk semua non-admin!".format(args[0])
                 )
 
                 return (
                     f"<b>{html.escape(chat.title)}:</b>\n"
                     f"#LOCK\n"
                     f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-                    f"Locked <code>{args[0]}</code>."
+                    f"Terkunci <code>{args[0]}</code>."
                 )
 
             elif args[0] in RESTRICTION_TYPES:
@@ -178,11 +178,11 @@ def lock(bot: Bot, update: Update, args: List[str]) -> str:
 
             else:
                 message.reply_text(
-                    "What are you trying to lock...? Try /locktypes for the list of lockables"
+                    "Apa yang kamu coba kunci ...? Coba /locktypes untuk daftar yang dapat dikunci"
                 )
 
     else:
-        message.reply_text("I'm not an administrator, or haven't got delete rights.")
+        message.reply_text("Saya bukan administrator, atau tidak punya hak hapus.")
 
     return ""
 
@@ -205,7 +205,7 @@ def unlock(bot: Bot, update: Update, args: List[str]) -> str:
                     f"<b>{html.escape(chat.title)}:</b>\n"
                     f"#UNLOCK\n"
                     f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-                    f"Unlocked <code>{args[0]}</code>."
+                    f"Tidak terkunci <code>{args[0]}</code>."
                 )
 
             elif args[0] in RESTRICTION_TYPES:
@@ -227,7 +227,7 @@ def unlock(bot: Bot, update: Update, args: List[str]) -> str:
                 elif args[0] == "all":
                     chat.set_permissions(can_send_messages=True, can_send_media_messages=True, can_send_other_messages=True, can_add_web_page_previews=True, can_send_polls=True)
                 """
-                message.reply_text("Unlocked {} for everyone!".format(args[0]))
+                message.reply_text("Terbuka {} untuk semua orang!".format(args[0]))
 
                 return (
                     f"<b>{html.escape(chat.title)}:</b>\n"
@@ -237,11 +237,11 @@ def unlock(bot: Bot, update: Update, args: List[str]) -> str:
                 )
             else:
                 message.reply_text(
-                    "What are you trying to unlock...? Try /locktypes for the list of lockables"
+                    "Apa yang Anda coba buka kuncinya ...? Coba /locktypes untuk daftar yang dapat dikunci"
                 )
 
         else:
-            bot.sendMessage(chat.id, "What are you trying to unlock...?")
+            bot.sendMessage(chat.id, "Apa yang Anda coba buka kuncinya...?")
 
     return ""
 
@@ -264,20 +264,20 @@ def del_lockables(bot: Bot, update: Update):
                     if new_mem.is_bot:
                         if not is_bot_admin(chat, bot.id):
                             message.reply_text(
-                                "I see a bot, and I've been told to stop them joining... "
-                                "but I'm not admin!"
+                                "Saya melihat bot, dan saya telah diberitahu untuk menghentikan mereka bergabung... "
+                                "tapi saya bukan admin!"
                             )
                             return
 
                         chat.kick_member(new_mem.id)
                         message.reply_text(
-                            "Only admins are allowed to add bots to this chat! Behave or I'll punch you."
+                            "Hanya admin yang diizinkan untuk menambahkan bot ke obrolan ini! Berperilaku atau aku akan memukulmu."
                         )
             else:
                 try:
                     message.delete()
                 except BadRequest as excp:
-                    if excp.message == "Message to delete not found":
+                    if excp.message == "Pesan untuk dihapus tidak ditemukan":
                         pass
                     else:
                         LOGGER.exception("ERROR in lockables")
@@ -299,7 +299,7 @@ def rest_handler(bot: Bot, update: Update):
             try:
                 msg.delete()
             except BadRequest as excp:
-                if excp.message == "Message to delete not found":
+                if excp.message == "Pesan untuk dihapus tidak ditemukan":
                     pass
                 else:
                     LOGGER.exception("ERROR in restrictions")
@@ -346,9 +346,9 @@ def build_lock_message(chat_id):
     restr = sql.get_restr(chat_id)
 
     if not (locks or restr):
-        res = "There are no current locks in this chat."
+        res = "Tidak ada kunci saat ini dalam obrolan ini."
     else:
-        res = "These are the locks in this chat:\n"
+        res = "Inilah kunci dalam obrolan ini:\n"
         ls = []
         if locks:
             ls += repl(
@@ -413,18 +413,18 @@ def __chat_settings__(chat_id, user_id):
 
 
 __help__ = """
- - /locktypes: a list of possible locktypes
+ - /locktypes: daftar kemungkinan jenis kunci
 
 *Admin only:*
- - /lock <type>: lock items of a certain type (not available in private)
- - /unlock <type>: unlock items of a certain type (not available in private)
- - /locks: the current list of locks in this chat.
+ - /lock <type>: kunci item dari jenis tertentu (tidak tersedia secara pribadi)
+ - /unlock <type>: membuka kunci item dari jenis tertentu (tidak tersedia secara pribadi)
+ - /locks: daftar kunci saat ini dalam obrolan ini
 
-Locks can be used to restrict a group's users.
-eg:
-Locking urls will auto-delete all messages with urls which haven't been whitelisted, locking stickers will delete all \
-stickers, etc.
-Locking bots will stop non-admins from adding bots to the chat.
+Kunci dapat digunakan untuk membatasi pengguna grup.
+Contoh:
+Mengunci url akan otomatis menghapus semua pesan dengan url yang belum masuk daftar putih, mengunci stiker akan menghapus semua \
+stiker, dll.
+Mengunci bot akan menghentikan non-admin menambahkan bot ke obrolan.
 """
 
 LOCKTYPES_HANDLER = DisableAbleCommandHandler("locktypes", locktypes)
