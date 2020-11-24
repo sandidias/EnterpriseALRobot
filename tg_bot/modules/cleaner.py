@@ -78,20 +78,20 @@ def set_blue_text_must_click(bot: Bot, update: Update, args: List[str]):
         val = args[0].lower()
         if val == "off" or val == "no":
             sql.set_cleanbt(chat.id, False)
-            reply = "Bluetext cleaning has been disabled for <b>{}</b>".format(
+            reply = "Pembersihan bluetext telah dinonaktifkan untuk <b>{}</b>".format(
                 html.escape(chat.title)
             )
             message.reply_text(reply, parse_mode=ParseMode.HTML)
 
         elif val == "yes" or val == "on":
             sql.set_cleanbt(chat.id, True)
-            reply = "Bluetext cleaning has been enabled for <b>{}</b>".format(
+            reply = "Pembersihan Bluetext telah diaktifkan untuk <b>{}</b>".format(
                 html.escape(chat.title)
             )
             message.reply_text(reply, parse_mode=ParseMode.HTML)
 
         else:
-            reply = "Invalid argument.Accepted values are 'yes', 'on', 'no', 'off'"
+            reply = "Argumen tidak valid. Nilai yang diterima adalah 'yes', 'on', 'no', 'off'"
             message.reply_text(reply)
     else:
         clean_status = sql.is_enabled(chat.id)
@@ -99,7 +99,7 @@ def set_blue_text_must_click(bot: Bot, update: Update, args: List[str]):
             clean_status = "Enabled"
         else:
             clean_status = "Disabled"
-        reply = "Bluetext cleaning for <b>{}</b> : <b>{}</b>".format(
+        reply = "Pembersihan teks teks untuk file <b>{}</b> : <b>{}</b>".format(
             chat.title, clean_status
         )
         message.reply_text(reply, parse_mode=ParseMode.HTML)
@@ -116,15 +116,15 @@ def add_bluetext_ignore(bot: Bot, update: Update, args: List[str]):
         val = args[0].lower()
         added = sql.chat_ignore_command(chat.id, val)
         if added:
-            reply = "<b>{}</b> has been added to bluetext cleaner ignore list.".format(
+            reply = "<b>{}</b> telah ditambahkan ke daftar abaikan pembersih bluetext.".format(
                 args[0]
             )
         else:
-            reply = "Command is already ignored."
+            reply = "Perintah sudah diabaikan."
         message.reply_text(reply, parse_mode=ParseMode.HTML)
 
     else:
-        reply = "No command supplied to be ignored."
+        reply = "Tidak ada perintah yang diberikan untuk diabaikan."
         message.reply_text(reply)
 
 
@@ -139,15 +139,15 @@ def remove_bluetext_ignore(bot: Bot, update: Update, args: List[str]):
         val = args[0].lower()
         removed = sql.chat_unignore_command(chat.id, val)
         if removed:
-            reply = "<b>{}</b> has been removed from bluetext cleaner ignore list.".format(
+            reply = "<b>{}</b> telah dihapus dari daftar abaikan pembersih bluetext.".format(
                 args[0]
             )
         else:
-            reply = "Command isn't ignored currently."
+            reply = "Perintah tidak diabaikan saat ini."
         message.reply_text(reply, parse_mode=ParseMode.HTML)
 
     else:
-        reply = "No command supplied to be unignored."
+        reply = "Tidak ada perintah yang diberikan untuk diabaikan."
         message.reply_text(reply)
 
 
@@ -161,15 +161,15 @@ def add_bluetext_ignore_global(bot: Bot, update: Update, args: List[str]):
         val = args[0].lower()
         added = sql.global_ignore_command(val)
         if added:
-            reply = "<b>{}</b> has been added to global bluetext cleaner ignore list.".format(
+            reply = "<b>{}</b> telah ditambahkan ke daftar abaikan pembersih bluetext global.".format(
                 args[0]
             )
         else:
-            reply = "Command is already ignored."
+            reply = "Perintah sudah diabaikan."
         message.reply_text(reply, parse_mode=ParseMode.HTML)
 
     else:
-        reply = "No command supplied to be ignored."
+        reply = "Tidak ada perintah yang diberikan untuk diabaikan."
         message.reply_text(reply)
 
 
@@ -183,15 +183,15 @@ def remove_bluetext_ignore_global(bot: Bot, update: Update, args: List[str]):
         val = args[0].lower()
         removed = sql.global_unignore_command(val)
         if removed:
-            reply = "<b>{}</b> has been removed from global bluetext cleaner ignore list.".format(
+            reply = "<b>{}</b> telah dihapus dari daftar abaikan pembersih bluetext global.".format(
                 args[0]
             )
         else:
-            reply = "Command isn't ignored currently."
+            reply = "Perintah tidak diabaikan saat ini."
         message.reply_text(reply, parse_mode=ParseMode.HTML)
 
     else:
-        reply = "No command supplied to be unignored."
+        reply = "Tidak ada perintah yang diberikan untuk diabaikan."
         message.reply_text(reply)
 
 
@@ -206,19 +206,19 @@ def bluetext_ignore_list(bot: Bot, update: Update):
     text = ""
 
     if global_ignored_list:
-        text = "The following commands are currently ignored globally from bluetext cleaning :\n"
+        text = "Perintah berikut saat ini diabaikan secara global dari pembersihan bluetext :\n"
 
         for x in global_ignored_list:
             text += f" - <code>{x}</code>\n"
 
     if local_ignore_list:
-        text += "\nThe following commands are currently ignored locally from bluetext cleaning :\n"
+        text += "\nPerintah berikut saat ini diabaikan secara lokal dari pembersihan bluetext :\n"
 
         for x in local_ignore_list:
             text += f" - <code>{x}</code>\n"
 
     if text == "":
-        text = "No commands are currently ignored from bluetext cleaning."
+        text = "Saat ini tidak ada perintah yang diabaikan dari pembersihan bluetext."
         message.reply_text(text)
         return
 
@@ -227,10 +227,10 @@ def bluetext_ignore_list(bot: Bot, update: Update):
 
 
 __help__ = """
- - /cleanbluetext <on/off/yes/no> - clean commands after sending
- - /ignorecleanbluetext <word> - prevent auto cleaning of the command
- - /unignorecleanbluetext <word> - remove prevent auto cleaning of the command
- - /listcleanbluetext - list currently whitelisted commands
+ - /cleanbluetext <on/off/yes/no> - perintah bersih setelah mengirim
+ - /ignorecleanbluetext <word> - mencegah pembersihan otomatis perintah
+ - /unignorecleanbluetext <word> - hapus mencegah pembersihan otomatis dari perintah
+ - /listcleanbluetext - daftar perintah yang saat ini masuk daftar putih
 """
 
 SET_CLEAN_BLUE_TEXT_HANDLER = CommandHandler(
