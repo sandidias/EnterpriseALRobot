@@ -9,16 +9,16 @@ async def purge_messages(event):
         return
 
     if not await user_is_admin(user_id=event.from_id, message=event):
-        await event.reply("Only Admins are allowed to use this command")
+        await event.reply("Hanya Admin yang diizinkan untuk menggunakan perintah ini")
         return
 
     if not await can_delete_messages(message=event):
-        await event.reply("Can't seem to purge the message")
+        await event.reply("Sepertinya tidak bisa membersihkan pesan")
         return
 
     message = await event.get_reply_message()
     if not message:
-        await event.reply("Reply to a message to select where to start purging from.")
+        await event.reply("Balas pesan untuk memilih dari mana mulai membersihkan.")
         return
     messages = []
     message_id = message.id
@@ -33,7 +33,7 @@ async def purge_messages(event):
             messages = []
 
     await event.client.delete_messages(event.chat_id, messages)
-    text = "Purged Successfully!"
+    text = "Berhasil dibersihkan!"
     await event.respond(text, parse_mode="markdown")
 
 
@@ -43,16 +43,16 @@ async def delete_messages(event):
         return
 
     if not await user_is_admin(user_id=event.from_id, message=event):
-        await event.reply("Only Admins are allowed to use this command")
+        await event.reply("Hanya Admin yang diizinkan untuk menggunakan perintah ini")
         return
 
     if not await can_delete_messages(message=event):
-        await event.reply("Can't seem to delete this?")
+        await event.reply("Sepertinya tidak dapat menghapus ini?")
         return
 
     message = await event.get_reply_message()
     if not message:
-        await event.reply("Whadya want to delete?")
+        await event.reply("Whadaw ingin menghapus?")
         return
     chat = await event.get_input_chat()
     del_message = [message, event.message]
@@ -60,10 +60,10 @@ async def delete_messages(event):
 
 
 __help__ = """
-*Admin only:*
- - /del: deletes the message you replied to
- - /purge: deletes all messages between this and the replied to message.
- - /purge <integer X>: deletes the replied message, and X messages following it if replied to a message.
+*Admin saja:*
+ - /del: menghapus pesan yang Anda balas
+ - /purge: menghapus semua pesan antara ini dan pesan yang dibalas.
+ - /purge <integer X>: menghapus pesan balasan, dan X pesan mengikutinya jika membalas pesan.
 """
 
 __mod_name__ = "Purges"
