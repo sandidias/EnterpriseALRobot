@@ -22,8 +22,8 @@ def import_data(bot: Bot, update: Update):
             file_info = bot.get_file(msg.reply_to_message.document.file_id)
         except BadRequest:
             msg.reply_text(
-                "Try downloading and reuploading the file as yourself before importing - this one seems "
-                "to be iffy!"
+                "Coba unduh dan unggah ulang file sebagai diri Anda sendiri sebelum mengimpor - tampaknya ini "
+                "menjadi rapuh!"
             )
             return
 
@@ -35,8 +35,8 @@ def import_data(bot: Bot, update: Update):
         # only import one group
         if len(data) > 1 and str(chat.id) not in data:
             msg.reply_text(
-                "Theres more than one group here in this file, and none have the same chat id as this group "
-                "- how do I choose what to import?"
+                "Ada lebih dari satu grup di sini, di file ini, dan tidak ada yang memiliki id obrolan yang sama dengan grup ini "
+                "- bagaimana cara memilih apa yang akan diimpor?"
             )
             return
 
@@ -51,10 +51,9 @@ def import_data(bot: Bot, update: Update):
                 mod.__import_data__(str(chat.id), data)
         except Exception:
             msg.reply_text(
-                "An exception occured while restoring your data. The process may not be complete. If "
-                "you're having issues with this, message @YorktownEagleUnion with your backup file so the "
-                "issue can be debugged. My owners would be happy to help, and every bug "
-                "reported makes me better! Thanks! :)"
+                "Pengecualian terjadi saat memulihkan data Anda. Prosesnya mungkin belum selesai. Jika "
+                "Anda mengalami masalah dengan ini, Pemilik saya akan dengan senang hati membantu, dan setiap bug "
+                "dilaporkan membuat saya lebih baik! Terima kasih! :)"
             )
             LOGGER.exception(
                 "Import for chatid %s with name %s failed.",
@@ -65,21 +64,21 @@ def import_data(bot: Bot, update: Update):
 
         # TODO: some of that link logic
         # NOTE: consider default permissions stuff?
-        msg.reply_text("Backup fully imported. Welcome back! :D")
+        msg.reply_text("Cadangan sepenuhnya diimpor. Selamat datang kembali! :D")
 
 
 @run_async
 @user_admin
 def export_data(bot: Bot, update: Update):
     msg = update.effective_message
-    msg.reply_text("Doesn't work yet.")
+    msg.reply_text("Belum bekerja.")
 
 
 __help__ = """
-*Admin only:*
- - /import: reply to a group butler backup file to import as much as possible, making the transfer super simple! Note \
-that files/photos can't be imported due to telegram restrictions.
- - /export: !!! This isn't a command yet, but should be coming soon!
+*Khusus Admin:*
+ - /import: balas file cadangan butler grup untuk mengimpor sebanyak mungkin, membuat transfer menjadi sangat mudah! Catatan \
+bahwa file/foto tidak dapat diimpor karena batasan telegram.
+ - /export: !!! Ini belum merupakan perintah, tetapi akan segera hadir!
 """
 
 IMPORT_HANDLER = CommandHandler("import", import_data)
@@ -88,5 +87,5 @@ EXPORT_HANDLER = CommandHandler("export", export_data)
 dispatcher.add_handler(IMPORT_HANDLER)
 dispatcher.add_handler(EXPORT_HANDLER)
 
-__mod_name__ = "Backups"
+__mod_name__ = "Cadangan"
 __handlers__ = [IMPORT_HANDLER, EXPORT_HANDLER]
