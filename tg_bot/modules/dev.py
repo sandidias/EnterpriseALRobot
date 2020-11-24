@@ -21,21 +21,21 @@ def leave(bot: Bot, update: Update, args: List[str]):
             update.effective_message.reply_text("Beep boop, I left that soup!.")
         except TelegramError:
             update.effective_message.reply_text(
-                "Beep boop, I could not leave that group(dunno why tho)."
+                "Bip boop, saya tidak bisa meninggalkan grup itu (tidak tahu kenapa tho)."
             )
     else:
-        update.effective_message.reply_text("Send a valid chat ID")
+        update.effective_message.reply_text("Kirim ID obrolan yang valid")
 
 
 @run_async
 @dev_plus
 def gitpull(bot: Bot, update: Update):
     sent_msg = update.effective_message.reply_text(
-        "Pulling all changes from remote and then attempting to restart."
+        "Menarik semua perubahan dari jarak jauh dan kemudian mencoba memulai ulang."
     )
     subprocess.Popen("git pull", stdout=subprocess.PIPE, shell=True)
 
-    sent_msg_text = sent_msg.text + "\n\nChanges pulled...I guess.. Restarting in "
+    sent_msg_text = sent_msg.text + "\n\nPerubahan ditarik ... Kurasa .. Memulai kembali "
 
     for i in reversed(range(5)):
         sent_msg.edit_text(sent_msg_text + str(i + 1))
@@ -51,7 +51,7 @@ def gitpull(bot: Bot, update: Update):
 @dev_plus
 def restart(bot: Bot, update: Update):
     update.effective_message.reply_text(
-        "Starting a new instance and shutting down this one"
+        "Memulai instance baru dan menghentikan yang ini"
     )
 
     os.system("restart.bat")
