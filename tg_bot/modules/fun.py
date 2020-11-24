@@ -146,20 +146,20 @@ def table(bot: Bot, update: Update):
 
 
 __help__ = """
- - /runs: reply a random string from an array of replies.
- - /slap: slap a user, or get slapped if not a reply.
- - /shrug : get shrug XD.
- - /table : get flip/unflip :v.
- - /decide : Randomly answers yes/no/maybe
- - /toss : Tosses A coin
- - /bluetext : check urself :V
- - /roll : Roll a dice.
- - /rlg : Join ears,nose,mouth and create an emo ;-;
- - /shout <keyword>: write anything you want to give loud shout.
- - /stickerid: reply to a sticker to get its ID.
- - /getsticker: reply to a sticker to get the raw PNG image.
- - /steal: reply to a sticker or image to add it to your pack.
- - /stickers: search stickers in combot sticker finder.
+ - /runs: balas string acak dari serangkaian balasan.
+ - /slap: menampar pengguna, atau ditampar jika bukan balasan.
+ - /shrug : angkat bahu XD.
+ - /table : dapatkan flip/unflip :v.
+ - /decide : Jawab secara acak ya/tidak/mungkin
+ - /toss : Mengeluarkan koin
+ - /bluetext : periksa dirimu sendiri :V
+ - /roll : Lempar dadu.
+ - /rlg : Bergabunglah dengan telinga, hidung, mulut, dan buat emot ;-;
+ - /shout <keyword>: tulis apa pun yang ingin Anda teriakkan
+ - /stickerid: balas stiker untuk mendapatkan ID-nya.
+ - /getsticker: balas stiker untuk mendapatkan gambar PNG mentah.
+ - /steal: balas stiker atau gambar untuk menambahkannya ke paket Anda.
+ - /stickers: cari stiker di pencari stiker combot.
 """
 
 RUNS_HANDLER = DisableAbleCommandHandler("runs", runs)
