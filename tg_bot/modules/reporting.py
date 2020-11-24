@@ -43,15 +43,15 @@ def report_setting(bot: Bot, update: Update, args: List[str]):
             if args[0] in ("yes", "on"):
                 sql.set_user_setting(chat.id, True)
                 msg.reply_text(
-                    "Turned on reporting! You'll be notified whenever anyone reports something."
+                    "Aktifkan pelaporan! Anda akan diberi tahu setiap kali ada yang melaporkan sesuatu."
                 )
 
             elif args[0] in ("no", "off"):
                 sql.set_user_setting(chat.id, False)
-                msg.reply_text("Turned off reporting! You wont get any reports.")
+                msg.reply_text("Nonaktifkan pelaporan! Anda tidak akan mendapatkan laporan apapun.")
         else:
             msg.reply_text(
-                "Your current report preference is: `{}`".format(
+                "Preferensi laporan Anda saat ini adalah: `{}`".format(
                     sql.user_should_report(chat.id)
                 ),
                 parse_mode=ParseMode.MARKDOWN,
@@ -62,18 +62,18 @@ def report_setting(bot: Bot, update: Update, args: List[str]):
             if args[0] in ("yes", "on"):
                 sql.set_chat_setting(chat.id, True)
                 msg.reply_text(
-                    "Turned on reporting! Admins who have turned on reports will be notified when /report "
-                    "or @admin are called."
+                    "Aktifkan pelaporan! Admin yang telah mengaktifkan laporan akan diberi tahu ketika /report "
+                    "atau @admin jika dipanggil."
                 )
 
             elif args[0] in ("no", "off"):
                 sql.set_chat_setting(chat.id, False)
                 msg.reply_text(
-                    "Turned off reporting! No admins will be notified on /report or @admin."
+                    "Nonaktifkan pelaporan! Tidak ada admin yang akan diberitahukan pada /report atau @admin."
                 )
         else:
             msg.reply_text(
-                "This chat's current setting is: `{}`".format(
+                "Pengaturan obrolan saat ini adalah: `{}`".format(
                     sql.chat_should_report(chat.id)
                 ),
                 parse_mode=ParseMode.MARKDOWN,
@@ -94,14 +94,14 @@ def report(bot: Bot, update: Update) -> str:
         admin_list = chat.get_administrators()
 
         if reported_user.id in REPORT_IMMUNE_USERS:
-            message.reply_text("Uh? You reporting whitelisted users?")
+            message.reply_text("Uh? Anda melaporkan pengguna yang masuk daftar putih?")
             return ""
 
         if chat.username and chat.type == Chat.SUPERGROUP:
             msg = (
                 "<b>{}:</b>"
-                "\n<b>Reported user:</b> {} (<code>{}</code>)"
-                "\n<b>Reported by:</b> {} (<code>{}</code>)".format(
+                "\n<b>Pengguna yang dilaporkan:</b> {} (<code>{}</code>)"
+                "\n<b>Dilaporkan oleh:</b> {} (<code>{}</code>)".format(
                     html.escape(chat.title),
                     mention_html(reported_user.id, reported_user.first_name),
                     reported_user.id,
@@ -142,7 +142,7 @@ def report(bot: Bot, update: Update) -> str:
                 ],
                 [
                     InlineKeyboardButton(
-                        u"❎ Delete Message",
+                        u"❎ Hapus pesan",
                         callback_data="report_{}=delete={}={}".format(
                             chat.id,
                             reported_user.id,
@@ -214,7 +214,7 @@ def report(bot: Bot, update: Update) -> str:
                     LOGGER.exception("Exception while reporting user")
 
         message.reply_to_message.reply_text(
-            "{} reported the message to the admins.".format(
+            "{} melaporkan pesan tersebut kepada admin.".format(
                 mention_html(user.id, user.first_name)
             ),
             parse_mode=ParseMode.HTML,
@@ -229,27 +229,27 @@ def __migrate__(old_chat_id, new_chat_id):
 
 
 def __chat_settings__(bot, update, chat, chatP, user):
-    return "This chat is setup to send user reports to admins, via /report and @admin: `{}`".format(
+    return "Obrolan ini disiapkan untuk mengirim laporan pengguna ke admin, melalui /report dan @admin: `{}`".format(
         sql.chat_should_report(chat.id)
     )
 
 
 def __user_settings__(bot, update, user):
     if sql.user_should_report(user.id) == True:
-        text = "You will receive reports from chats you're admin."
+        text = "Anda akan menerima laporan dari obrolan yang Anda kelola."
         keyboard = [
             [
                 InlineKeyboardButton(
-                    text="Disable reporting", callback_data="panel_reporting_U_disable"
+                    text="Nonaktifkan pelaporan", callback_data="panel_reporting_U_disable"
                 )
             ]
         ]
     else:
-        text = "You will *not* receive reports from chats you're admin."
+        text = "Anda *tidak* akan menerima laporan dari obrolan yang Anda kelola."
         keyboard = [
             [
                 InlineKeyboardButton(
-                    text="Enable reporting", callback_data="panel_reporting_U_enable"
+                    text="Aktifkan pelaporan", callback_data="panel_reporting_U_enable"
                 )
             ]
         ]
@@ -268,13 +268,13 @@ def control_panel_user(bot, update):
 
     if enable:
         sql.set_user_setting(chat.id, True)
-        text = "Enabled reporting in your pm!"
+        text = "Pelaporan diaktifkan di pm Anda!"
     else:
         sql.set_user_setting(chat.id, False)
-        text = "Disabled reporting in your pm!"
+        text = "Pelaporan dinonaktifkan di pm Anda!"
 
     keyboard = [
-        [InlineKeyboardButton(text="⬅️ Back", callback_data="cntrl_panel_U(1)")]
+        [InlineKeyboardButton(text="⬅️ Kembali", callback_data="cntrl_panel_U(1)")]
     ]
 
     update.effective_message.reply_text(
@@ -289,10 +289,10 @@ def buttons(bot: Bot, update):
         try:
             bot.kickChatMember(splitter[0], splitter[2])
             bot.unbanChatMember(splitter[0], splitter[2])
-            query.answer("✅ Succesfully kicked")
+            query.answer("✅ Berhasil ditendang")
             return ""
         except Exception as err:
-            query.answer("❎ Failed to kick")
+            query.answer("❎ Gagal menendang seseorang")
             bot.sendMessage(
                 text="Error: {}".format(err),
                 chat_id=query.message.chat_id,
@@ -301,7 +301,7 @@ def buttons(bot: Bot, update):
     elif splitter[1] == "banned":
         try:
             bot.kickChatMember(splitter[0], splitter[2])
-            query.answer("✅  Succesfully Banned")
+            query.answer("✅  Berhasil Diblokir")
             return ""
         except Exception as err:
             bot.sendMessage(
@@ -309,11 +309,11 @@ def buttons(bot: Bot, update):
                 chat_id=query.message.chat_id,
                 parse_mode=ParseMode.HTML,
             )
-            query.answer("❎ Failed to ban")
+            query.answer("❎ Gagal memblokir")
     elif splitter[1] == "delete":
         try:
             bot.deleteMessage(splitter[0], splitter[3])
-            query.answer("✅ Message Deleted")
+            query.answer("✅ Pesan dihapus")
             return ""
         except Exception as err:
             bot.sendMessage(
@@ -321,19 +321,19 @@ def buttons(bot: Bot, update):
                 chat_id=query.message.chat_id,
                 parse_mode=ParseMode.HTML,
             )
-            query.answer("❎ Failed to delete message!")
+            query.answer("❎ Gagal menghapus pesan!")
 
 
 __mod_name__ = "Reporting"
 
 __help__ = """
- - /report <reason>: reply to a message to report it to admins.
- - @admin: reply to a message to report it to admins.
-NOTE: neither of these will get triggered if used by admins
-*Admin only:*
- - /reports <on/off>: change report setting, or view current status.
-   - If done in pm, toggles your status.
-   - If in chat, toggles that chat's status.
+ - /report <alasan>: balas pesan untuk melaporkannya ke admin.
+ - @admin: balas pesan untuk melaporkannya ke admin.
+CATATAN: tidak satu pun dari ini akan dipicu jika digunakan oleh admin
+*Admin saja:*
+ - /reports <on/off>: ubah pengaturan laporan, atau lihat status saat ini.
+   - Jika selesai di pm, matikan status Anda.
+   - Jika dalam obrolan, matikan status obrolan itu.
 """
 
 REPORT_HANDLER = CommandHandler("report", report, filters=Filters.group)
