@@ -28,27 +28,27 @@ from tg_bot.modules.helper_funcs.extraction import extract_user
 import tg_bot.modules.sql.users_sql as sql
 
 MARKDOWN_HELP = f"""
-Markdown is a very powerful formatting tool supported by telegram. {dispatcher.bot.first_name} has some enhancements, to make sure that \
-saved messages are correctly parsed, and to allow you to create buttons.
+Markdown adalah alat pemformatan yang sangat kuat yang didukung oleh telegram. {dispatcher.bot.first_name} memiliki beberapa peningkatan, untuk memastikannya \
+pesan yang disimpan diurai dengan benar, dan memungkinkan Anda membuat tombol.
 
-- <code>_italic_</code>: wrapping text with '_' will produce italic text
-- <code>*bold*</code>: wrapping text with '*' will produce bold text
-- <code>`code`</code>: wrapping text with '`' will produce monospaced text, also known as 'code'
-- <code>[sometext](someURL)</code>: this will create a link - the message will just show <code>sometext</code>, \
-and tapping on it will open the page at <code>someURL</code>.
-EG: <code>[test](example.com)</code>
+- <code>_miring_</code>: membungkus teks dengan '_' akan menghasilkan teks miring
+- <code>*tebal*</code>: membungkus teks dengan '*' akan menghasilkan teks tebal
+- <code>`kode`</code>: membungkus teks dengan '`' akan menghasilkan teks monospace, juga dikenal sebagai 'kode'
+- <code>[teks](URL)</code>: ini akan membuat tautan - pesan hanya akan menampilkan <code>teks</code>, \
+dan mengetuknya akan membuka halaman di <code>URL</code>.
+Contoh: <code>[test](contoh.com)</code>
 
-- <code>[buttontext](buttonurl:someURL)</code>: this is a special enhancement to allow users to have telegram \
-buttons in their markdown. <code>buttontext</code> will be what is displayed on the button, and <code>someurl</code> \
-will be the url which is opened.
-EG: <code>[This is a button](buttonurl:example.com)</code>
+- <code>[TombolTeks](buttonurl:URL)</code>: ini adalah perangkat tambahan khusus yang memungkinkan pengguna memiliki \
+tombol di markdown mereka. <code>TombolTeks</code> akan menjadi apa yang ditampilkan pada tombol, dan <code>URL</code> \
+akan menjadi url yang dibuka.
+Contoh: <code>[Ini sebuah tombol](buttonurl:contoh.com)</code>
 
-If you want multiple buttons on the same line, use :same, as such:
-<code>[one](buttonurl://example.com)
-[two](buttonurl://google.com:same)</code>
-This will create two buttons on a single line, instead of one button per line.
+Jika Anda ingin beberapa tombol pada baris yang sama, gunakan :same, seperti :
+<code>[satu](buttonurl:contoh.com)
+[dua](buttonurl:google.com:same)</code>
+Ini akan membuat dua tombol pada satu baris, bukan satu tombol per baris.
 
-Keep in mind that your message <b>MUST</b> contain some text other than just a button!
+Perlu diingat bahwa pesan Anda <b>HARUS</b> berisi beberapa teks selain hanya sebuah tombol!
 """
 
 
@@ -67,10 +67,10 @@ def get_id(bot: Bot, update: Update, args: List[str]):
             user2 = message.reply_to_message.forward_from
 
             msg.reply_text(
-                f"The original sender, {html.escape(user2.first_name)},"
-                f" has an ID of <code>{user2.id}</code>.\n"
-                f"The forwarder, {html.escape(user1.first_name)},"
-                f" has an ID of <code>{user1.id}</code>.",
+                f"Pengirim asli, {html.escape(user2.first_name)},"
+                f"memiliki ID <code>{user2.id}</code>.\n"
+                f"Penerusan, {html.escape(user1.first_name)},"
+                f" memiliki ID <code>{user1.id}</code>.",
                 parse_mode=ParseMode.HTML,
             )
 
@@ -86,12 +86,12 @@ def get_id(bot: Bot, update: Update, args: List[str]):
 
         if chat.type == "private":
             msg.reply_text(
-                f"Your id is <code>{chat.id}</code>.", parse_mode=ParseMode.HTML
+                f"ID Anda adalah <code>{chat.id}</code>.", parse_mode=ParseMode.HTML
             )
 
         else:
             msg.reply_text(
-                f"This group's id is <code>{chat.id}</code>.", parse_mode=ParseMode.HTML
+                f"Id grup ini adalah <code>{chat.id}</code>.", parse_mode=ParseMode.HTML
             )
 
 
@@ -104,7 +104,7 @@ def gifid(bot: Bot, update: Update):
             parse_mode=ParseMode.HTML,
         )
     else:
-        update.effective_message.reply_text("Please reply to a gif to get its ID.")
+        update.effective_message.reply_text("Silakan balas gif untuk mendapatkan ID-nya.")
 
 
 @run_async
@@ -128,31 +128,31 @@ def info(bot: Bot, update: Update, args: List[str]):
             and not message.parse_entities([MessageEntity.TEXT_MENTION])
         )
     ):
-        message.reply_text("I can't extract a user from this.")
+        message.reply_text("Saya tidak dapat mengekstrak pengguna dari ini.")
         return
 
     else:
         return
 
     text = (
-        f"<b>Characteristics:</b>\n"
+        f"<b>Karakteristik:</b>\n"
         f"ID: <code>{user.id}</code>\n"
-        f"First Name: {html.escape(user.first_name)}"
+        f"Nama depan: {html.escape(user.first_name)}"
     )
 
     if user.last_name:
-        text += f"\nLast Name: {html.escape(user.last_name)}"
+        text += f"\nNama Belakang: {html.escape(user.last_name)}"
 
     if user.username:
-        text += f"\nUsername: @{html.escape(user.username)}"
+        text += f"\nNama pengguna: @{html.escape(user.username)}"
 
-    text += f"\nPermanent user link: {mention_html(user.id, 'link')}"
+    text += f"\nTautan pengguna permanen: {mention_html(user.id, 'link')}"
     
     try:
         spamwtc = sw.get_ban(int(user.id))
         if spamwtc:
-            text += "\n\n<b>This person is banned in Spamwatch!</b>"
-            text += f"\nReason: <pre>{spamwtc.reason}</pre>"
+            text += "\n\n<b>Orang ini dilarang di Spamwatch!</b>"
+            text += f"\nAlasan: <pre>{spamwtc.reason}</pre>"
             text += "\nAppeal at @SpamWatchSupport"
         else:
             pass
@@ -162,7 +162,7 @@ def info(bot: Bot, update: Update, args: List[str]):
     Nation_level_present = False
 
     num_chats = sql.get_user_num_chats(user.id)
-    text += f"\nChat count: <code>{num_chats}</code>"
+    text += f"\nJumlah obrolan: <code>{num_chats}</code>"
 
     try:
         user_member = chat.get_member(user.id)
@@ -173,12 +173,12 @@ def info(bot: Bot, update: Update, args: List[str]):
             result = result.json()["result"]
             if "custom_title" in result.keys():
                 custom_title = result["custom_title"]
-                text += f"\nThis user holds the title <b>{custom_title}</b> here."
+                text += f"\nPengguna ini memiliki title <b>{custom_title}</b> disini."
     except BadRequest:
         pass
 
     if user.id == OWNER_ID:
-            text += f'\nThis person is my owner'
+            text += f'\nOrang ini adalah pemilik saya'
             Nation_level_present = True
     elif user.id in DEV_USERS:
             text += f'\nThis Person is a part of Eagle Union'
@@ -281,19 +281,19 @@ def ram(bot: Bot, update: Update):
 def markdown_help(bot: Bot, update: Update):
     update.effective_message.reply_text(MARKDOWN_HELP, parse_mode=ParseMode.HTML)
     update.effective_message.reply_text(
-        "Try forwarding the following message to me, and you'll see!"
+        "Coba teruskan pesan berikut kepada saya, dan Anda akan lihat!"
     )
     update.effective_message.reply_text(
-        "/save test This is a markdown test. _italics_, *bold*, `code`, "
+        "/save tes Ini adalah markdown test. _italics_, *bold*, `code`, "
         "[URL](example.com) [button](buttonurl:github.com) "
-        "[button2](buttonurl://google.com:same)"
+        "[TombolTeks2](TombolUrl://google.com:same)"
     )
 
 
 @run_async
 @sudo_plus
 def stats(bot: Bot, update: Update):
-    stats = "Current stats:\n" + "\n".join([mod.__stats__() for mod in STATS])
+    stats = "Statistik saat ini:\n" + "\n".join([mod.__stats__() for mod in STATS])
     result = re.sub(r"(\d+)", r"<code>\1</code>", stats)
     update.effective_message.reply_text(result, parse_mode=ParseMode.HTML)
     
@@ -311,40 +311,40 @@ def ping(bot: Bot, update: Update):
 
 
 __help__ = """
- - /id: get the current group id. If used by replying to a message, gets that user's id.
- - /gifid: reply to a gif to me to tell you its file ID.
- - /info: get information about a user.
- - /markdownhelp: quick summary of how markdown works in telegram - can only be called in private chats.
- - /reverse: Does a reverse image search of the media which it was replied to.
- - /ud <word>: Type the word or expression you want to search use.
- - /urban <word>: Same as /ud
- - /paste - Do a paste at `neko.bin`
- - /react: Reacts with a random reaction
- - /weebify <text>: returns a weebified text
- - /lyrics <song>: returns the lyrics of that song.
- - /tr (language code) as reply to a long message.
- - /time <query> : Gives information about a timezone.
- - /cash : currency converter
-   example syntax: /cash 1 USD INR
- - /whois : get info about a user (uses @Pyrogram methods)
- - /spbinfo : get info about a user from @Intellivoid's SpamProtection API
+ - /id: dapatkan id grup saat ini. Jika digunakan dengan membalas pesan, dapatkan id pengguna itu.
+ - /gifid: balas gif ke saya untuk memberi tahu Anda ID filenya.
+ - /info: mendapatkan informasi tentang pengguna
+ - /markdownhelp: ringkasan singkat tentang bagaimana penurunan harga bekerja di telegram - hanya dapat dipanggil dalam obrolan pribadi.
+ - /reverse: Melakukan pencarian gambar terbalik dari media yang dibalas.
+ - /ud <word>: Ketik kata atau ekspresi yang ingin Anda gunakan pencarian.
+ - /urban <word>: Sama dengan /ud
+ - /paste - Lakukan tempel di `neko.bin`
+ - /react: Bereaksi dengan reaksi acak
+ - /weebify <text>: mengembalikan teks weebified
+ - /lyrics <lagu>: mengembalikan lirik lagu itu.
+ - /tr (kode bahasa) sebagai balasan untuk pesan panjang.
+ - /time <query> : Memberikan informasi tentang zona waktu.
+ - /cash : konverter mata uang
+   contoh sintaks: /cash 1 USD IDR
+ - /whois : dapatkan info tentang pengguna (uses @Pyrogram methods)
+ - /spbinfo : dapatkan info tentang pengguna dari @Intellivoid's SpamProtection API
 ───────────────────────────────
 *Last.FM*
-Share what you're what listening to with the help of this module!
-*Available commands:*
- - /setuser <username>: sets your last.fm username.
- - /clearuser: removes your last.fm username from the bot's database.
- - /lastfm: returns what you're scrobbling on last.fm.
+Bagikan apa yang Anda dengarkan dengan bantuan modul ini!
+*Perintah yang tersedia:*
+ - /setuser <username>: setel nama pengguna last.fm Anda.
+ - /clearuser: menghapus nama pengguna last.fm Anda dari database bot.
+ - /lastfm: mengembalikan apa yang Anda cari di last.fm.
 ───────────────────────────────
-*Math*
-Solves complex math problems using https://newton.now.sh
- - /math: Simplify `/simplify 2^2+2(2)`
- - /factor: Factor `/factor x^2 + 2x`
- - /derive: Derive `/derive x^2+2x`
- - /integrate: Integrate `/integrate x^2+2x`
- - /zeroes: Find 0's `/zeroes x^2+2x`
- - /tangent: Find Tangent `/tangent 2lx^3`
- - /area: Area Under Curve `/area 2:4lx^3`
+*Matematika*
+Memecahkan masalah matematika yang rumit menggunakan https://newton.now.sh
+ - /math: Menyederhanakan `/simplify 2^2+2(2)`
+ - /factor: Faktor `/factor x^2 + 2x`
+ - /derive: Memperoleh `/derive x^2+2x`
+ - /integrate: Mengintegrasikan `/integrate x^2+2x`
+ - /zeroes: Temukan 0's `/zeroes x^2+2x`
+ - /tangent: Temukan Tangent `/tangent 2lx^3`
+ - /area: Area di Bawah Kurva `/area 2:4lx^3`
  - /cos: Cosine `/cos pi`
  - /sin: Sine `/sin 0`
  - /tan: Tangent `/tan 0`
@@ -354,9 +354,9 @@ Solves complex math problems using https://newton.now.sh
  - /abs: Absolute Value `/abs -1`
  - /log: Logarithm `/log 2l8`
 
-__Keep in mind__: To find the tangent line of a function at a certain x value, send the request as c|f(x) where c is the given x value and f(x) is the function expression, the separator is a vertical bar '|'. See the table above for an example request.
-To find the area under a function, send the request as c:d|f(x) where c is the starting x value, d is the ending x value, and f(x) is the function under which you want the curve between the two x values.
-To compute fractions, enter expressions as numerator(over)denominator. For example, to process 2/4 you must send in your expression as 2(over)4. The result expression will be in standard math notation (1/2, 3/4).
+__Ingat__: Untuk menemukan garis singgung suatu fungsi pada nilai x tertentu, kirim permintaan sebagai c|f(x) di mana c adalah nilai x yang diberikan dan f(x) adalah ekspresi fungsi, pemisahnya adalah batang vertikal '|' . Lihat tabel di atas untuk contoh permintaan.
+Untuk mencari luas di bawah suatu fungsi, kirim permintaan sebagai c:d|f(x) di mana c adalah nilai x awal, d adalah nilai akhir x, dan f(x) adalah fungsi di mana Anda ingin kurva antara dua nilai x.
+Untuk menghitung pecahan, masukkan ekspresi sebagai penyebut pembilang (di atas). Misalnya, untuk memproses 2/4 Anda harus mengirimkan ekspresi Anda sebagai 2 (di atas) 4. Ekspresi hasilnya akan dalam notasi matematika standar (1/2, 3/4).
 
 """
 
