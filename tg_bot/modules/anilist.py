@@ -171,7 +171,7 @@ def airing(bot: Bot, update: Update):
     search_str = message.text.split(" ", 1)
     if len(search_str) == 1:
         update.effective_message.reply_text(
-            "Tell Anime Name :) ( /airing <anime name>)"
+            "Beri Tahu Nama Anime :) ( /airing <judul anime>)"
         )
         return
     variables = {"search": search_str[1]}
@@ -231,7 +231,7 @@ def anime(bot: Bot, update: Update):
             buttons = [
                 [
                     InlineKeyboardButton("More Info", url=info),
-                    InlineKeyboardButton("Trailer 🎬", url=trailer),
+                    InlineKeyboardButton("Cuplikan 🎬", url=trailer),
                 ]
             ]
         else:
@@ -264,7 +264,7 @@ def character(bot: Bot, update: Update):
     message = update.effective_message
     search = message.text.split(" ", 1)
     if len(search) == 1:
-        update.effective_message.reply_text("Format : /character < character name >")
+        update.effective_message.reply_text("Format : /character < nama character >")
         return
     search = search[1]
     variables = {"query": search}
@@ -293,7 +293,7 @@ def manga(bot: Bot, update: Update):
     message = update.effective_message
     search = message.text.split(" ", 1)
     if len(search) == 1:
-        update.effective_message.reply_text("Format : /manga < manga name >")
+        update.effective_message.reply_text("Format : /manga < judul manga >")
         return
     search = search[1]
     variables = {"search": search}
@@ -323,7 +323,7 @@ def manga(bot: Bot, update: Update):
             msg += f"\n*Status* - `{status}`"
         if score:
             msg += f"\n*Score* - `{score}`"
-        msg += "\n*Genres* - "
+        msg += "\n*Genre* - "
         for x in json.get("genres", []):
             msg += f"{x}, "
         msg = msg[:-2]
@@ -355,11 +355,11 @@ def manga(bot: Bot, update: Update):
 
 __help__ = """
 *AniList*
-Get information about anime, manga or characters with the help of this module! All data is fetched from [AniList](anilist.co).
-*Available commands:*
- - /anime <anime>: returns information about the anime.
- - /character <character>: returns information about the character.
- - /manga <manga>: returns information about the manga.
+Dapatkan informasi tentang anime, manga, atau karakter dengan bantuan modul ini! Semua data diambil dari [AniList](anilist.co).
+*Perintah yang tersedia:*
+ - /anime <anime>: memberikan informasi tentang anime.
+ - /character <character>: informasi tentang karakter tersebut.
+ - /manga <manga>: informasi tentang manga.
 """
 __mod_name__ = "AniList"
 
