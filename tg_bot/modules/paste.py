@@ -19,7 +19,7 @@ def paste(bot: Bot, update: Update, args: List[str]):
         data = message.text.split(None, 1)[1]
 
     else:
-        message.reply_text("What am I supposed to do with this?")
+        message.reply_text("Apa yang harus saya lakukan dengan ini?")
         return
 
     key = (
@@ -31,7 +31,7 @@ def paste(bot: Bot, update: Update, args: List[str]):
 
     url = f"https://nekobin.com/{key}"
 
-    reply_text = f"Nekofied to *Nekobin* : {url}"
+    reply_text = f"Nekofied ke *Nekobin* : {url}"
 
     message.reply_text(
         reply_text, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True
