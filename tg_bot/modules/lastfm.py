@@ -21,7 +21,7 @@ def set_user(bot: Bot, update: Update, args):
         msg.reply_text(f"Username set as {username}!")
     else:
         msg.reply_text(
-            "That's not how this works...\nRun /setuser followed by your username!"
+            "Bukan begitu cara kerjanya...\nJalankan /setuser diikuti dengan nama pengguna Anda!"
         )
 
 
@@ -30,7 +30,7 @@ def clear_user(bot: Bot, update: Update):
     user = update.effective_user.id
     sql.set_user(user, "")
     update.effective_message.reply_text(
-        "Last.fm username successfully cleared from my database!"
+        "Nama pengguna Last.fm berhasil dihapus dari database saya!"
     )
 
 
@@ -41,7 +41,7 @@ def last_fm(bot: Bot, update: Update):
     user_id = update.effective_user.id
     username = sql.get_user(user_id)
     if not username:
-        msg.reply_text("You haven't set your username yet!")
+        msg.reply_text("Anda belum menyetel nama pengguna Anda!")
         return
 
     base_url = "http://ws.audioscrobbler.com/2.0"
@@ -50,14 +50,14 @@ def last_fm(bot: Bot, update: Update):
     )
     if not res.status_code == 200:
         msg.reply_text(
-            "Hmm... something went wrong.\nPlease ensure that you've set the correct username!"
+            "Hmm ... ada yang tidak beres.\nHarap pastikan bahwa Anda telah menyetel nama pengguna yang benar!"
         )
         return
 
     try:
         first_track = res.json().get("recenttracks").get("track")[0]
     except IndexError:
-        msg.reply_text("You don't seem to have scrobbled any songs...")
+        msg.reply_text("Sepertinya Anda tidak memiliki lagu apa pun...")
         return
     if first_track.get("@attr"):
         # Ensures the track is now playing
