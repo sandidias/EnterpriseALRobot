@@ -35,35 +35,35 @@ def bl_user(bot: Bot, update: Update, args: List[str]) -> str:
     user_id, reason = extract_user_and_text(message, args)
 
     if not user_id:
-        message.reply_text("I doubt that's a user.")
+        message.reply_text("Saya ragu itu adalah pengguna.")
         return ""
 
     if user_id == bot.id:
-        message.reply_text("How am I supposed to do my work if I am ignoring myself?")
+        message.reply_text("Bagaimana saya bisa melakukan pekerjaan saya jika saya mengabaikan diri saya sendiri?")
         return ""
 
     if user_id in BLACKLISTWHITELIST:
-        message.reply_text("No!\nNoticing Nations is my job.")
+        message.reply_text("Tidak!\nMemperhatikan anda pekerjaan saya.")
         return ""
 
     try:
         target_user = bot.get_chat(user_id)
     except BadRequest as excp:
-        if excp.message == "User not found":
-            message.reply_text("I can't seem to find this user.")
+        if excp.message == "Pengguna tidak ditemukan":
+            message.reply_text("Sepertinya saya tidak dapat menemukan pengguna ini.")
             return ""
         else:
             raise
 
     sql.blacklist_user(user_id, reason)
-    message.reply_text("I shall ignore the existence of this user!")
+    message.reply_text("Saya akan mengabaikan keberadaan pengguna ini!")
     log_message = (
         f"#BLACKLIST\n"
         f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-        f"<b>User:</b> {mention_html(target_user.id, target_user.first_name)}"
+        f"<b>Pengguna:</b> {mention_html(target_user.id, target_user.first_name)}"
     )
     if reason:
-        log_message += f"\n<b>Reason:</b> {reason}"
+        log_message += f"\n<b>Alasan:</b> {reason}"
 
     return log_message
 
@@ -78,18 +78,18 @@ def unbl_user(bot: Bot, update: Update, args: List[str]) -> str:
     user_id = extract_user(message, args)
 
     if not user_id:
-        message.reply_text("I doubt that's a user.")
+        message.reply_text("Saya ragu itu adalah pengguna.")
         return ""
 
     if user_id == bot.id:
-        message.reply_text("I always notice myself.")
+        message.reply_text("Saya selalu memperhatikan diri saya sendiri.")
         return ""
 
     try:
         target_user = bot.get_chat(user_id)
     except BadRequest as excp:
-        if excp.message == "User not found":
-            message.reply_text("I can't seem to find this user.")
+        if excp.message == "Pengguna tidak ditemukan":
+            message.reply_text("Sepertinya saya tidak dapat menemukan pengguna ini.")
             return ""
         else:
             raise
@@ -101,13 +101,13 @@ def unbl_user(bot: Bot, update: Update, args: List[str]) -> str:
         log_message = (
             f"#UNBLACKLIST\n"
             f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-            f"<b>User:</b> {mention_html(target_user.id, target_user.first_name)}"
+            f"<b>Pengguna:</b> {mention_html(target_user.id, target_user.first_name)}"
         )
 
         return log_message
 
     else:
-        message.reply_text("I am not ignoring them at all though!")
+        message.reply_text("Saya tidak mengabaikan mereka sama sekali!")
         return ""
 
 
@@ -126,9 +126,9 @@ def bl_users(bot: Bot, update: Update):
         else:
             users.append(f"• {mention_html(user.id, user.first_name)}")
 
-    message = "<b>Blacklisted Users</b>\n"
+    message = "<b>Pengguna yang Masuk Daftar Hitam</b>\n"
     if not users:
-        message += "Noone is being ignored as of yet."
+        message += "Belum ada yang diabaikan."
     else:
         message += "\n".join(users)
 
@@ -148,7 +148,7 @@ def __user_info__(user_id):
         text = text.format("Yes")
         reason = sql.get_reason(user_id)
         if reason:
-            text += f"\nReason: <code>{reason}</code>"
+            text += f"\nAlasan: <code>{reason}</code>"
     else:
         text = text.format("No")
 
