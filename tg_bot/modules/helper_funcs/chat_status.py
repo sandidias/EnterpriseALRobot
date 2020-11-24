@@ -6,7 +6,7 @@ from tg_bot import (
     dispatcher,
     DEL_CMDS,
     WHITELIST_USERS,
-    SARDEGNA_USERS,
+    SARDEGNA_USERS,f
     SUPPORT_USERS,
     SUDO_USERS,
     DEV_USERS,
@@ -152,7 +152,7 @@ def whitelist_plus(func):
             return func(bot, update, *args, **kwargs)
         else:
             update.effective_message.reply_text(
-                "Anda tidak memiliki akses untuk menggunakan ini./nCoba tanyakan master saya"
+                "Anda tidak memiliki akses untuk menggunakan ini.\nCoba tanyakan master saya"
             )
 
     return is_whitelist_plus_func
@@ -301,7 +301,7 @@ def can_restrict(func):
         message_chat_title = update.effective_message.chat.title
 
         if update_chat_title == message_chat_title:
-            cant_restrict = f"Saya tidak dapat membatasi orang di sini!/nPastikan saya admin dan dapat membatasi pengguna."
+            cant_restrict = f"Saya tidak dapat membatasi orang di sini!\nPastikan saya admin dan dapat membatasi pengguna."
         else:
             cant_restrict = f"Saya tidak dapat membatasi orang di <b>{update_chat_title}</b>!\nPastikan saya admin di sana dan dapat membatasi pengguna."
 
