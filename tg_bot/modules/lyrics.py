@@ -13,7 +13,7 @@ def lyrics(bot: Bot, update: Update, args):
     query = " ".join(args)
     song = ""
     if not query:
-        msg.reply_text("You haven't specified which song to look for!")
+        msg.reply_text("Anda belum menentukan lagu mana yang harus dicari!")
         return
     else:
         song = Song.find_song(query)
@@ -21,7 +21,7 @@ def lyrics(bot: Bot, update: Update, args):
             if song.lyrics:
                 reply = song.format()
             else:
-                reply = "Couldn't find any lyrics for that song!"
+                reply = "Tidak dapat menemukan lirik apa pun untuk lagu itu!"
         else:
             reply = "Song not found!"
         if len(reply) > 4090:
