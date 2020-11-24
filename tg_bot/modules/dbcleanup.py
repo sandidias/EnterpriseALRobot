@@ -86,16 +86,16 @@ def get_invalid_gban(bot: Bot, update: Update, remove: bool = False):
 def dbcleanup(bot: Bot, update: Update):
     msg = update.effective_message
 
-    msg.reply_text("Getting invalid chat count ...")
+    msg.reply_text("Mendapatkan jumlah obrolan yang tidak valid ...")
     invalid_chat_count = get_invalid_chats(bot, update)
 
-    msg.reply_text("Getting invalid gbanned count ...")
+    msg.reply_text("Mendapatkan jumlah larangan yang tidak valid ...")
     invalid_gban_count = get_invalid_gban(bot, update)
 
-    reply = f"Total invalid chats - {invalid_chat_count}\n"
-    reply += f"Total invalid gbanned users - {invalid_gban_count}"
+    reply = f"Total obrolan tidak valid - {invalid_chat_count}\n"
+    reply += f"Total pengguna gbanned yang tidak valid - {invalid_gban_count}"
 
-    buttons = [[InlineKeyboardButton("Cleanup DB", callback_data=f"db_cleanup")]]
+    buttons = [[InlineKeyboardButton("Membersihkan DB", callback_data=f"db_cleanup")]]
 
     update.effective_message.reply_text(
         reply, reply_markup=InlineKeyboardMarkup(buttons)
@@ -157,10 +157,10 @@ def get_muted_chats(bot: Bot, update: Update, leave: bool = False):
 @dev_plus
 def leave_muted_chats(bot: Bot, update: Update):
     message = update.effective_message
-    progress_message = message.reply_text("Getting chat count ...")
+    progress_message = message.reply_text("Mendapatkan jumlah obrolan ...")
     muted_chats = get_muted_chats(bot, update)
 
-    buttons = [[InlineKeyboardButton("Leave chats", callback_data=f"db_leave_chat")]]
+    buttons = [[InlineKeyboardButton("Tinggalkan obrolan", callback_data=f"db_leave_chat")]]
 
     update.effective_message.reply_text(
         f"I am muted in {muted_chats} chats.",
@@ -182,17 +182,17 @@ def callback_button(bot: Bot, update: Update):
 
     if query_type == "db_leave_chat":
         if query.from_user.id in admin_list:
-            bot.editMessageText("Leaving chats ...", chat_id, message.message_id)
+            bot.editMessageText("Meninggalkan obrolan ...", chat_id, message.message_id)
             chat_count = get_muted_chats(bot, update, True)
             bot.sendMessage(chat_id, f"Left {chat_count} chats.")
         else:
-            query.answer("You are not allowed to use this.")
+            query.answer("Anda tidak diperbolehkan menggunakan ini.")
     elif query_type == "db_cleanup":
         if query.from_user.id in admin_list:
-            bot.editMessageText("Cleaning up DB ...", chat_id, message.message_id)
+            bot.editMessageText("Membersihkan DB ...", chat_id, message.message_id)
             invalid_chat_count = get_invalid_chats(bot, update, True)
             invalid_gban_count = get_invalid_gban(bot, update, True)
-            reply = "Cleaned up {} chats and {} gbanned users from db.".format(
+            reply = "Membersihkan {} obrolan dan {} melarang pengguna dari db.".format(
                 invalid_chat_count, invalid_gban_count
             )
             bot.sendMessage(chat_id, reply)
