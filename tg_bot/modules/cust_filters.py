@@ -38,16 +38,16 @@ def list_handlers(bot: Bot, update: Update):
     message_chat_title = update.effective_message.chat.title
 
     if update_chat_title == message_chat_title:
-        BASIC_FILTER_STRING = "<b>Filters in this chat:</b>\n"
+        BASIC_FILTER_STRING = "<b>Filter di obrolan ini:</b>\n"
     else:
-        BASIC_FILTER_STRING = f"<b>Filters in {update_chat_title}</b>:\n"
+        BASIC_FILTER_STRING = f"<b>Filter masuk {update_chat_title}</b>:\n"
 
     if not all_handlers:
         if update_chat_title == message_chat_title:
-            update.effective_message.reply_text("No filters are active here!")
+            update.effective_message.reply_text("Tidak ada filter yang aktif di sini!")
         else:
             update.effective_message.reply_text(
-                f"No filters are active in <b>{update_chat_title}</b>!",
+                f"Tidak ada filter yang aktif di <b>{update_chat_title}</b>!",
                 parse_mode=telegram.ParseMode.HTML,
             )
         return
@@ -110,7 +110,7 @@ def filters(bot: Bot, update: Update):
         content = content.strip()
         if not content:
             msg.reply_text(
-                "There is no note message - You can't JUST have buttons, you need a message to go with it!"
+                "Tidak ada pesan catatan - Anda tidak bisa HANYA memiliki tombol, Anda perlu pesan untuk menyertainya!"
             )
             return
 
@@ -139,7 +139,7 @@ def filters(bot: Bot, update: Update):
         is_video = True
 
     else:
-        msg.reply_text("You didn't specify what to reply with!")
+        msg.reply_text("Anda tidak menentukan harus membalas dengan apa!")
         return
 
     # Add the filter
@@ -179,16 +179,16 @@ def stop_filter(bot: Bot, update: Update):
     chat_filters = sql.get_chat_triggers(chat.id)
 
     if not chat_filters:
-        msg.reply_text("No filters are active here!")
+        msg.reply_text("Tidak ada filter yang aktif di sini!")
         return
 
     for keyword in chat_filters:
         if keyword == args[1]:
             sql.remove_filter(chat.id, args[1])
-            msg.reply_text("Yep, I'll stop replying to that.")
+            msg.reply_text("Ya, saya akan berhenti menjawab itu.")
             raise DispatcherHandlerStop
 
-    msg.reply_text("That's not a current filter - run /filters for all active filters.")
+    msg.reply_text("Itu bukan filter saat ini - jalankan /filters untuk semua filter aktif.")
 
 
 @run_async
@@ -232,11 +232,11 @@ def reply_filter(bot: Bot, update: Update):
                 except BadRequest as excp:
                     if excp.message == "Unsupported url protocol":
                         message.reply_text(
-                            "You seem to be trying to use an unsupported url protocol. Telegram "
-                            "doesn't support buttons for some protocols, such as tg://. Please try "
-                            "again, or ask in @YorktownEagleUnion for help."
+                            "Anda tampaknya mencoba menggunakan protokol url yang tidak didukung. Telegram "
+                            "tidak mendukung tombol untuk beberapa protokol, seperti tg://. Coba ulangi "
+                            "lagi."
                         )
-                    elif excp.message == "Reply message not found":
+                    elif excp.message == "Pesan balasan tidak ditemukan":
                         bot.send_message(
                             chat.id,
                             filt.reply,
@@ -246,8 +246,8 @@ def reply_filter(bot: Bot, update: Update):
                         )
                     else:
                         message.reply_text(
-                            "This note could not be sent, as it is incorrectly formatted. Ask in "
-                            "@YorktownEagleUnion if you can't figure out why!"
+                            "Catatan ini tidak dapat dikirim, karena formatnya salah. Tanya  "
+                            "master saya, mungkin ada yang bisa dia lakukan!"
                         )
                         LOGGER.warning(
                             "Message %s could not be parsed", str(filt.reply)
@@ -274,18 +274,18 @@ def __migrate__(old_chat_id, new_chat_id):
 
 def __chat_settings__(chat_id, user_id):
     cust_filters = sql.get_chat_triggers(chat_id)
-    return "There are currently `{}` custom filters here.".format(len(cust_filters))
+    return "Saat ini ada `{}` filter khusus di sini.".format(len(cust_filters))
 
 
 __help__ = """
- - /filters: list all active filters in this chat.
+ - /filters: daftar semua filter aktif dalam obrolan ini.
 
-*Admin only:*
- - /filter <keyword> <reply message>: add a filter to this chat. The bot will now reply that message whenever 'keyword'\
-is mentioned. If you reply to a sticker with a keyword, the bot will reply with that sticker. NOTE: all filter \
-keywords are in lowercase. If you want your keyword to be a sentence, use quotes. eg: /filter "hey there" How you \
+*Hanya Admin:*
+ - /filter <keyword> <balas pesan>: tambahkan filter ke obrolan ini. Bot sekarang akan membalas pesan itu setiap kali 'kata kunci'\
+disebutkan. Jika Anda membalas stiker dengan kata kunci, bot akan membalas dengan stiker itu. CATATAN: semua filter \
+kata kunci menggunakan huruf kecil. Jika Anda ingin kata kunci Anda menjadi kalimat, gunakan tanda kutip. misal: /filter "hey there" Bagaimana kabarmu \
 doin?
- - /stop <filter keyword>: stop that filter.
+ - /stop <filter keyword>: hentikan filter itu.
 """
 
 FILTER_HANDLER = CommandHandler("filter", filters)
@@ -298,7 +298,7 @@ dispatcher.add_handler(STOP_HANDLER)
 dispatcher.add_handler(LIST_HANDLER)
 dispatcher.add_handler(CUST_FILTER_HANDLER, HANDLER_GROUP)
 
-__mod_name__ = "Filters"
+__mod_name__ = "Filter"
 __handlers__ = [
     FILTER_HANDLER,
     STOP_HANDLER,
