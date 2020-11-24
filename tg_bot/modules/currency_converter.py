@@ -16,7 +16,7 @@ def convert(bot: Bot, update: Update):
             orig_cur = args[2].upper()
         except IndexError:
             update.effective_message.reply_text(
-                "You forgot to mention the currency code."
+                "Anda lupa menyebutkan kode mata uang."
             )
             return
 
@@ -24,7 +24,7 @@ def convert(bot: Bot, update: Update):
             new_cur = args[3].upper()
         except IndexError:
             update.effective_message.reply_text(
-                "You forgot to mention the currency code to convert into."
+                "Anda lupa menyebutkan kode mata uang untuk dikonversi."
             )
             return
 
@@ -41,7 +41,7 @@ def convert(bot: Bot, update: Update):
                 response["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
             )
         except KeyError:
-            update.effective_message.reply_text(f"Currency Not Supported.")
+            update.effective_message.reply_text(f"Mata Uang Tidak Didukung.")
             return
         new_cur_amount = round(orig_cur_amount * current_rate, 5)
         update.effective_message.reply_text(
