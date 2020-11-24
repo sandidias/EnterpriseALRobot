@@ -51,10 +51,10 @@ def blacklist(bot: Bot, update: Update, args: List[str]):
     for text in split_text:
         if text == base_blacklist_string:
             if update_chat_title == message_chat_title:
-                msg.reply_text("There are no blacklisted messages here!")
+                msg.reply_text("Tidak ada pesan yang masuk daftar hitam di sini!")
             else:
                 msg.reply_text(
-                    f"There are no blacklisted messages in <b>{update_chat_title}</b>!",
+                    f"Tidak ada pesan dalam daftar hitam <b>{update_chat_title}</b>!",
                     parse_mode=ParseMode.HTML,
                 )
             return
@@ -80,19 +80,19 @@ def add_blacklist(bot: Bot, update: Update):
 
         if len(to_blacklist) == 1:
             msg.reply_text(
-                f"Added <code>{html.escape(to_blacklist[0])}</code> to the blacklist!",
+                f"Ditambahkan <code>{html.escape(to_blacklist[0])}</code> ke daftar hitam!",
                 parse_mode=ParseMode.HTML,
             )
 
         else:
             msg.reply_text(
-                f"Added <code>{len(to_blacklist)}</code> triggers to the blacklist.",
+                f"Ditambahkan <code>{len(to_blacklist)}</code> pemicu ke daftar hitam.",
                 parse_mode=ParseMode.HTML,
             )
 
     else:
         msg.reply_text(
-            "Tell me which words you would like to remove from the blacklist."
+            "Beri tahu saya kata-kata yang ingin Anda hapus dari daftar hitam."
         )
 
 
@@ -119,33 +119,33 @@ def unblacklist(bot: Bot, update: Update):
         if len(to_unblacklist) == 1:
             if successful:
                 msg.reply_text(
-                    f"Removed <code>{html.escape(to_unblacklist[0])}</code> from the blacklist!",
+                    f"Dihapus <code>{html.escape(to_unblacklist[0])}</code> dari daftar hitam!",
                     parse_mode=ParseMode.HTML,
                 )
             else:
-                msg.reply_text("This isn't a blacklisted trigger...!")
+                msg.reply_text("Ini bukan pemicu yang masuk daftar hitam...!")
 
         elif successful == len(to_unblacklist):
             msg.reply_text(
-                f"Removed <code>{successful}</code> triggers from the blacklist.",
+                f"Dihapus <code>{successful}</code> pemicu dari daftar hitam.",
                 parse_mode=ParseMode.HTML,
             )
 
         elif not successful:
             msg.reply_text(
-                "None of these triggers exist, so they weren't removed.",
+                "Tidak satu pun dari pemicu ini ada, jadi tidak dihapus.",
                 parse_mode=ParseMode.HTML,
             )
 
         else:
             msg.reply_text(
-                f"Removed <code>{successful}</code> triggers from the blacklist."
-                f" {len(to_unblacklist) - successful} did not exist, so were not removed.",
+                f"Dihapus <code>{successful}</code> pemicu dari daftar hitam."
+                f" {len(to_unblacklist) - successful} tidak ada, jadi tidak dihapus.",
                 parse_mode=ParseMode.HTML,
             )
     else:
         msg.reply_text(
-            "Tell me which words you would like to remove from the blacklist."
+            "Beri tahu saya kata-kata yang ingin Anda hapus dari daftar hitam."
         )
 
 
@@ -167,10 +167,10 @@ def del_blacklist(bot: Bot, update: Update):
             try:
                 message.delete()
             except BadRequest as excp:
-                if excp.message == "Message to delete not found":
+                if excp.message == "Pesan untuk dihapus tidak ditemukan":
                     pass
                 else:
-                    LOGGER.exception("Error while deleting blacklist message.")
+                    LOGGER.exception("Kesalahan saat menghapus pesan daftar hitam.")
             break
 
 
@@ -190,19 +190,19 @@ def __stats__():
 
 
 __help__ = """
-Blacklists are used to stop certain triggers from being said in a group. Any time the trigger is mentioned, \
-the message will immediately be deleted. A good combo is sometimes to pair this up with warn filters!
+Daftar hitam digunakan untuk menghentikan pemicu tertentu diucapkan dalam kelompok. Setiap kali pemicu disebutkan, \
+pesan tersebut akan segera dihapus. Kombo yang bagus terkadang memasangkan ini dengan filter peringatan!
 
-*NOTE:* blacklists do not affect group admins.
+*NOTE:* daftar hitam tidak mempengaruhi admin grup
 
- - /blacklist: View the current blacklisted words.
+ - /blacklist: Lihat kata-kata dalam daftar hitam saat ini.
 
-*Admin only:*
- - /addblacklist <triggers>: Add a trigger to the blacklist. Each line is considered one trigger, so using different \
-lines will allow you to add multiple triggers.
- - /unblacklist <triggers>: Remove triggers from the blacklist. Same newline logic applies here, so you can remove \
-multiple triggers at once.
- - /rmblacklist <triggers>: Same as above.
+*Hanya Admin:*
+ - /addblacklist <triggers>: Tambahkan pemicu ke daftar hitam. Setiap baris dianggap satu pemicu, jadi menggunakan yang berbeda\
+baris akan memungkinkan Anda menambahkan beberapa pemicu.
+ - /unblacklist <triggers>: Hapus pemicu dari daftar hitam. Logika baris baru yang sama berlaku di sini, jadi Anda bisa menghapus \
+beberapa pemicu sekaligus.
+ - /rmblacklist <triggers>: Sama seperti di atas.
 """
 
 BLACKLIST_HANDLER = DisableAbleCommandHandler(
