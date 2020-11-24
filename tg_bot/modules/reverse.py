@@ -40,7 +40,7 @@ def reverse(bot: Bot, update: Update, args: List[str]):
         elif reply.document:
             file_id = reply.document.file_id
         else:
-            msg.reply_text("Reply to an image or sticker to lookup.")
+            msg.reply_text("Balas gambar atau stiker untuk dicari.")
             return
         image_file = bot.get_file(file_id)
         image_file.download(imagename)
@@ -64,28 +64,28 @@ def reverse(bot: Bot, update: Update, args: List[str]):
             img_link = splatargs[1]
             lim = 2
         else:
-            msg.reply_text("/reverse <link> <amount of images to return.>")
+            msg.reply_text("/reverse <link> <jumlah gambar untuk dikembalikan.>")
             return
         try:
             urllib.request.urlretrieve(img_link, imagename)
         except HTTPError as HE:
             if HE.reason == "Not Found":
-                msg.reply_text("Image not found.")
+                msg.reply_text("Gambar tidak ditemukan.")
                 return
             elif HE.reason == "Forbidden":
                 msg.reply_text(
-                    "Couldn't access the provided link, The website might have blocked accessing to the website by bot or the website does not existed."
+                    "Tidak dapat mengakses tautan yang disediakan, Situs web mungkin telah memblokir akses ke situs web dengan bot atau situs web tidak ada."
                 )
                 return
         except URLError as UE:
             msg.reply_text(f"{UE.reason}")
             return
         except ValueError as VE:
-            msg.reply_text(f"{VE}\nPlease try again using http or https protocol.")
+            msg.reply_text(f"{VE}\nHarap coba lagi menggunakan protokol http atau https.")
             return
     else:
         msg.reply_markdown(
-            "Please reply to a sticker, or an image to search it!\nDo you know that you can search an image with a link too? `/reverse [picturelink] <amount>`."
+            "Harap balas stiker, atau gambar untuk mencarinya!\nTahukah Anda bahwa Anda juga dapat menelusuri gambar dengan tautan? `/reverse [linkgambar] <jumlah>`."
         )
         return
 
@@ -101,13 +101,13 @@ def reverse(bot: Bot, update: Update, args: List[str]):
         if response != 400:
             xx = bot.send_message(
                 chat_id,
-                "Image was successfully uploaded to Google."
-                "\nParsing source now. Maybe.",
+                "Gambar berhasil diunggah ke Google."
+                "\nMencari sumber sekarang. Mungkin.",
                 reply_to_message_id=rtmid,
             )
         else:
             xx = bot.send_message(
-                chat_id, "Google told me to go away.", reply_to_message_id=rtmid
+                chat_id, "Google menyuruh saya pergi.", reply_to_message_id=rtmid
             )
             return
 
@@ -121,19 +121,19 @@ def reverse(bot: Bot, update: Update, args: List[str]):
 
         if guess and imgspage:
             xx.edit_text(
-                f"[{guess}]({fetchUrl})\nLooking for images...",
+                f"[{guess}]({fetchUrl})\nMencari gambar...",
                 parse_mode="Markdown",
                 disable_web_page_preview=True,
             )
         else:
-            xx.edit_text("Couldn't find anything.")
+            xx.edit_text("Tidak dapat menemukan apa pun.")
             return
 
         images = scam(imgspage, lim)
         if len(images) == 0:
             xx.edit_text(
                 f"[{guess}]({fetchUrl})\n[Visually similar images]({imgspage})"
-                "\nCouldn't fetch any images.",
+                "\nTidak dapat mengambil gambar apa pun.",
                 parse_mode="Markdown",
                 disable_web_page_preview=True,
             )
