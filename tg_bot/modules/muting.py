@@ -22,24 +22,24 @@ from tg_bot.modules.log_channel import loggable
 
 def check_user(user_id: int, bot: Bot, chat: Chat) -> Optional[str]:
     if not user_id:
-        reply = "You don't seem to be referring to a user."
+        reply = "Anda sepertinya tidak mengacu pada pengguna."
         return reply
 
     try:
         member = chat.get_member(user_id)
     except BadRequest as excp:
-        if excp.message == "User not found":
-            reply = "I can't seem to find this user"
+        if excp.message == "Pengguna tidak ditemukan":
+            reply = "Sepertinya saya tidak dapat menemukan pengguna ini"
             return reply
         else:
             raise
 
     if user_id == bot.id:
-        reply = "I'm not gonna MUTE myself, How high are you?"
+        reply = "Aku tidak akan MUTE diriku sendiri, Seberapa tinggi dirimu?"
         return reply
 
     if is_user_admin(chat, user_id, member) or user_id in SARDEGNA_USERS:
-        reply = "I really wish I could mute admins...Perhaps a Punch?"
+        reply = "Saya benar-benar berharap saya bisa membisukan admin ... Mungkin Pukulan?"
         return reply
 
     return None
@@ -72,19 +72,19 @@ def mute(bot: Bot, update: Update, args: List[str]) -> str:
     )
 
     if reason:
-        log += f"\n<b>Reason:</b> {reason}"
+        log += f"\n<b>Alasan:</b> {reason}"
 
     if member.can_send_messages is None or member.can_send_messages:
         bot.restrict_chat_member(chat.id, user_id, can_send_messages=False)
         bot.sendMessage(
             chat.id,
-            f"Muted <b>{html.escape(member.user.first_name)}</b> with no expiration date!",
+            f"Muted <b>{html.escape(member.user.first_name)}</b> tanpa tanggal kedaluwarsa!",
             parse_mode=ParseMode.HTML,
         )
         return log
 
     else:
-        message.reply_text("This user is already muted!")
+        message.reply_text("Pengguna ini telah dibungkam!")
 
     return ""
 
@@ -102,7 +102,7 @@ def unmute(bot: Bot, update: Update, args: List[str]) -> str:
     user_id = extract_user(message, args)
     if not user_id:
         message.reply_text(
-            "You'll need to either give me a username to unmute, or reply to someone to be unmuted."
+            "Anda harus memberi saya nama pengguna untuk menyuarakan, atau membalas seseorang untuk dibungkam."
         )
         return ""
 
@@ -115,7 +115,7 @@ def unmute(bot: Bot, update: Update, args: List[str]) -> str:
             and member.can_send_other_messages
             and member.can_add_web_page_previews
         ):
-            message.reply_text("This user already has the right to speak.")
+            message.reply_text("Pengguna ini sudah memiliki hak untuk berbicara.")
         else:
             bot.restrict_chat_member(
                 chat.id,
@@ -134,12 +134,12 @@ def unmute(bot: Bot, update: Update, args: List[str]) -> str:
                 f"<b>{html.escape(chat.title)}:</b>\n"
                 f"#UNMUTE\n"
                 f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-                f"<b>User:</b> {mention_html(member.user.id, member.user.first_name)}"
+                f"<b>Pengguna:</b> {mention_html(member.user.id, member.user.first_name)}"
             )
     else:
         message.reply_text(
-            "This user isn't even in the chat, unmuting them won't make them talk more than they "
-            "already do!"
+            "Pengguna ini bahkan tidak ada dalam obrolan, mengaktifkannya tidak akan membuat mereka berbicara lebih banyak daripada mereka "
+            "sudah lakukan!"
         )
 
     return ""
@@ -166,7 +166,7 @@ def temp_mute(bot: Bot, update: Update, args: List[str]) -> str:
     member = chat.get_member(user_id)
 
     if not reason:
-        message.reply_text("You haven't specified a time to mute this user for!")
+        message.reply_text("Anda belum menentukan waktu untuk menonaktifkan pengguna ini!")
         return ""
 
     split_reason = reason.split(None, 1)
@@ -186,11 +186,11 @@ def temp_mute(bot: Bot, update: Update, args: List[str]) -> str:
         f"<b>{html.escape(chat.title)}:</b>\n"
         f"#TEMP MUTED\n"
         f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-        f"<b>User:</b> {mention_html(member.user.id, member.user.first_name)}\n"
-        f"<b>Time:</b> {time_val}"
+        f"<b>Pengguna:</b> {mention_html(member.user.id, member.user.first_name)}\n"
+        f"<b>Waktu:</b> {time_val}"
     )
     if reason:
-        log += f"\n<b>Reason:</b> {reason}"
+        log += f"\n<b>Alasan:</b> {reason}"
 
     try:
         if member.can_send_messages is None or member.can_send_messages:
@@ -204,10 +204,10 @@ def temp_mute(bot: Bot, update: Update, args: List[str]) -> str:
             )
             return log
         else:
-            message.reply_text("This user is already muted.")
+            message.reply_text("Pengguna ini telah dibungkam.")
 
     except BadRequest as excp:
-        if excp.message == "Reply message not found":
+        if excp.message == "Pesan balasan tidak ditemukan":
             # Do not reply
             message.reply_text(f"Muted for {time_val}!", quote=False)
             return log
@@ -220,16 +220,16 @@ def temp_mute(bot: Bot, update: Update, args: List[str]) -> str:
                 chat.id,
                 excp.message,
             )
-            message.reply_text("Well damn, I can't mute that user.")
+            message.reply_text("Sial, saya tidak bisa menonaktifkan pengguna itu.")
 
     return ""
 
 
 __help__ = """
-*Admin only:*
- - /mute <userhandle>: silences a user. Can also be used as a reply, muting the replied to user.
- - /tmute <userhandle> x(m/h/d): mutes a user for x time. (via handle, or reply). m = minutes, h = hours, d = days.
- - /unmute <userhandle>: unmutes a user. Can also be used as a reply, muting the replied to user.
+*Khusus Admin:*
+ - /mute <userhandle>: membungkam pengguna. Bisa juga digunakan sebagai balasan, membungkam pengguna yang dibalas.
+ - /tmute <userhandle> x(m/h/d): membisukan pengguna selama x waktu. (melalui pegangan, atau balasan). m = menit, h = jam, d = hari.
+ - /unmute <userhandle>: mengaktifkan pengguna. Bisa juga digunakan sebagai balasan, membungkam pengguna yang dibalas.
 """
 
 MUTE_HANDLER = CommandHandler("mute", mute, pass_args=True)
