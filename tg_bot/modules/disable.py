@@ -109,10 +109,10 @@ if is_module_loaded(FILENAME):
                     parse_mode=ParseMode.MARKDOWN,
                 )
             else:
-                update.effective_message.reply_text("That command can't be disabled")
+                update.effective_message.reply_text("Perintah itu tidak dapat dinonaktifkan")
 
         else:
-            update.effective_message.reply_text("What should I disable?")
+            update.effective_message.reply_text("Apa yang harus saya nonaktifkan?")
 
     @run_async
     @connection_status
@@ -125,14 +125,14 @@ if is_module_loaded(FILENAME):
             try:
                 module = importlib.import_module(disable_module)
             except:
-                update.effective_message.reply_text("Does that module even exist?")
+                update.effective_message.reply_text("Apakah modul itu ada?")
                 return
 
             try:
                 command_list = module.__command_list__
             except:
                 update.effective_message.reply_text(
-                    "Module does not contain command list!"
+                    "Modul tidak berisi daftar perintah!"
                 )
                 return
 
@@ -159,12 +159,12 @@ if is_module_loaded(FILENAME):
             if failed_disabled_cmds:
                 failed_disabled_cmds_string = ", ".join(failed_disabled_cmds)
                 update.effective_message.reply_text(
-                    f"Commands `{failed_disabled_cmds_string}` can't be disabled",
+                    f"Perintah `{failed_disabled_cmds_string}` tidak dapat dinonaktifkan",
                     parse_mode=ParseMode.MARKDOWN,
                 )
 
         else:
-            update.effective_message.reply_text("What should I disable?")
+            update.effective_message.reply_text("Apa yang harus saya nonaktifkan?")
 
     @run_async
     @connection_status
@@ -182,10 +182,10 @@ if is_module_loaded(FILENAME):
                     f"Enabled the use of `{enable_cmd}`", parse_mode=ParseMode.MARKDOWN
                 )
             else:
-                update.effective_message.reply_text("Is that even disabled?")
+                update.effective_message.reply_text("Apakah itu bahkan dinonaktifkan?")
 
         else:
-            update.effective_message.reply_text("What should I enable?")
+            update.effective_message.reply_text("Apa yang harus saya aktifkan?")
 
     @run_async
     @connection_status
@@ -199,14 +199,14 @@ if is_module_loaded(FILENAME):
             try:
                 module = importlib.import_module(enable_module)
             except:
-                update.effective_message.reply_text("Does that module even exist?")
+                update.effective_message.reply_text("Apakah modul itu ada?")
                 return
 
             try:
                 command_list = module.__command_list__
             except:
                 update.effective_message.reply_text(
-                    "Module does not contain command list!"
+                    "Modul tidak berisi daftar perintah!"
                 )
                 return
 
@@ -225,19 +225,19 @@ if is_module_loaded(FILENAME):
             if enabled_cmds:
                 enabled_cmds_string = ", ".join(enabled_cmds)
                 update.effective_message.reply_text(
-                    f"Enabled the uses of `{enabled_cmds_string}`",
+                    f"Mengaktifkan penggunaan `{enabled_cmds_string}`",
                     parse_mode=ParseMode.MARKDOWN,
                 )
 
             if failed_enabled_cmds:
                 failed_enabled_cmds_string = ", ".join(failed_enabled_cmds)
                 update.effective_message.reply_text(
-                    f"Are the commands `{failed_enabled_cmds_string}` even disabled?",
+                    f"Apakah perintahnya `{failed_enabled_cmds_string}` bahkan cacat?",
                     parse_mode=ParseMode.MARKDOWN,
                 )
 
         else:
-            update.effective_message.reply_text("What should I enable?")
+            update.effective_message.reply_text("Apa yang harus saya aktifkan?")
 
     @run_async
     @connection_status
@@ -248,22 +248,22 @@ if is_module_loaded(FILENAME):
             for cmd in set(DISABLE_CMDS + DISABLE_OTHER):
                 result += f" - `{escape_markdown(cmd)}`\n"
             update.effective_message.reply_text(
-                f"The following commands are toggleable:\n{result}",
+                f"Perintah berikut dapat diubah:\n{result}",
                 parse_mode=ParseMode.MARKDOWN,
             )
         else:
-            update.effective_message.reply_text("No commands can be disabled.")
+            update.effective_message.reply_text("Tidak ada perintah yang dapat dinonaktifkan.")
 
     # do not async
     def build_curr_disabled(chat_id: Union[str, int]) -> str:
         disabled = sql.get_all_disabled(chat_id)
         if not disabled:
-            return "No commands are disabled!"
+            return "Tidak ada perintah yang dinonaktifkan!"
 
         result = ""
         for cmd in disabled:
             result += " - `{}`\n".format(escape_markdown(cmd))
-        return "The following commands are currently restricted:\n{}".format(result)
+        return "Perintah berikut saat ini dibatasi:\n{}".format(result)
 
     @run_async
     @connection_status
@@ -301,14 +301,14 @@ if is_module_loaded(FILENAME):
     dispatcher.add_handler(TOGGLE_HANDLER)
 
     __help__ = """
-    - /cmds: check the current status of disabled commands
+    - /cmds: periksa status saat ini dari perintah yang dinonaktifkan
 
     *Admin only:*
-    - /enable <cmd name>: enable that command
-    - /disable <cmd name>: disable that command
-    - /enablemodule <module name>: enable all commands in that module
-    - /disablemodule <module name>: disable all commands in that module
-    - /listcmds: list all possible toggleable commands
+    - /enable <cmd name>: aktifkan perintah itu
+    - /disable <cmd name>: nonaktifkan perintah itu
+    - /enablemodule <module name>: aktifkan semua perintah dalam modul itu
+    - /disablemodule <module name>: nonaktifkan semua perintah dalam modul itu
+    - /listcmds: daftar semua perintah yang dapat dialihkan
     """
 
     __mod_name__ = "Command disabling"
