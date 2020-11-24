@@ -59,13 +59,13 @@ def totranslate(bot: Bot, update: Update):
                 detection = trl.detect(text)
                 tekstr = trl.translate(text, dest=dest_lang)
                 return message.reply_text(
-                    f"Translated from `{detection.lang}` to `{dest_lang}`:\n`{tekstr.text}`",
+                    f"Diterjemahkan dari `{detection.lang}` to `{dest_lang}`:\n`{tekstr.text}`",
                     parse_mode=ParseMode.MARKDOWN,
                 )
             else:
                 tekstr = trl.translate(text, dest=dest_lang, src=source_lang)
                 message.reply_text(
-                    f"Translated from `{source_lang}` to `{dest_lang}`:\n`{tekstr.text}`",
+                    f"Diterjemahkan dari `{source_lang}` to `{dest_lang}`:\n`{tekstr.text}`",
                     parse_mode=ParseMode.MARKDOWN,
                 )
         else:
@@ -101,7 +101,7 @@ def totranslate(bot: Bot, update: Update):
                 detection = trl.detect(text)
                 tekstr = trl.translate(text, dest=source_lang)
                 return message.reply_text(
-                    "Translated from `{}` to `{}`:\n`{}`".format(
+                    "Diterjemahkan dari `{}` to `{}`:\n`{}`".format(
                         detection.lang, source_lang, tekstr.text
                     ),
                     parse_mode=ParseMode.MARKDOWN,
@@ -109,7 +109,7 @@ def totranslate(bot: Bot, update: Update):
             else:
                 tekstr = trl.translate(text, dest=dest_lang, src=source_lang)
                 message.reply_text(
-                    "Translated from `{}` to `{}`:\n`{}`".format(
+                    "Diterjemahkan dari `{}` to `{}`:\n`{}`".format(
                         source_lang, dest_lang, tekstr.text
                     ),
                     parse_mode=ParseMode.MARKDOWN,
@@ -117,15 +117,15 @@ def totranslate(bot: Bot, update: Update):
 
     except IndexError:
         update.effective_message.reply_text(
-            "Reply to messages or write messages from other languages ​​for translating into the intended language\n\n"
-            "Example: `/tr en ml` to translate from English to Malayalam\n"
-            "Or use: `/tr ml` for automatic detection and translating it into Malayalam.\n"
-            "See [List of Language Codes](t.me/OnePunchSupport/12823) for a list of language codes.",
+            "Membalas pesan atau menulis pesan dari bahasa lain •• untuk menerjemahkan ke dalam bahasa yang dimaksudkan\n\n"
+            "Contoh: `/tr en id` untuk menerjemahkan dari bahasa Inggris ke bahasa Indonesia\n"
+            "Atau gunakan: `/tr id` untuk deteksi otomatis dan menerjemahkannya ke dalam bahasa Indonesia.\n"
+            "Lihat [Daftar Kode Bahasa](t.me/OnePunchSupport/12823) untuk daftar kode bahasa.",
             parse_mode="markdown",
             disable_web_page_preview=True,
         )
     except ValueError:
-        update.effective_message.reply_text("The intended language is not found!")
+        update.effective_message.reply_text("Bahasa yang dimaksudkan tidak ditemukan!")
     else:
         return
 
