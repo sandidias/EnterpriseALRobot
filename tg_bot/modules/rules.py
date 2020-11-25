@@ -28,8 +28,8 @@ def send_rules(update, chat_id, from_pm=False):
         if excp.message == "Chat not found" and from_pm:
             bot.send_message(
                 user.id,
-                "The rules shortcut for this chat hasn't been set properly! Ask admins to "
-                "fix this.",
+                "Pintasan aturan untuk obrolan ini belum disetel dengan benar! Minta admin untuk "
+                "memperbaiki ini.",
             )
             return
         else:
@@ -45,17 +45,17 @@ def send_rules(update, chat_id, from_pm=False):
     elif from_pm:
         bot.send_message(
             user.id,
-            "The group admins haven't set any rules for this chat yet. "
-            "This probably doesn't mean it's lawless though...!",
+            "Admin grup belum menetapkan aturan apa pun untuk obrolan ini. "
+            "Ini mungkin tidak berarti itu melanggar hukum...!",
         )
     elif rules:
         update.effective_message.reply_text(
-            "Contact me in PM to get this group's rules.",
+            "Hubungi saya di PM untuk mendapatkan aturan grup ini.",
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
                         InlineKeyboardButton(
-                            text="Rules", url=f"t.me/{bot.username}?start={chat_id}"
+                            text="Aturan", url=f"t.me/{bot.username}?start={chat_id}"
                         )
                     ]
                 ]
@@ -63,8 +63,8 @@ def send_rules(update, chat_id, from_pm=False):
         )
     else:
         update.effective_message.reply_text(
-            "The group admins haven't set any rules for this chat yet. "
-            "This probably doesn't mean it's lawless though...!"
+            "Admin grup belum menetapkan aturan apa pun untuk obrolan ini. "
+            "Ini mungkin tidak berarti itu melanggar hukum...!"
         )
 
 
@@ -83,7 +83,7 @@ def set_rules(bot: Bot, update: Update):
         )
 
         sql.set_rules(chat_id, markdown_rules)
-        update.effective_message.reply_text("Successfully set rules for this group.")
+        update.effective_message.reply_text("Berhasil menetapkan aturan untuk grup ini.")
 
 
 @run_async
@@ -91,11 +91,11 @@ def set_rules(bot: Bot, update: Update):
 def clear_rules(bot: Bot, update: Update):
     chat_id = update.effective_chat.id
     sql.set_rules(chat_id, "")
-    update.effective_message.reply_text("Successfully cleared rules!")
+    update.effective_message.reply_text("Aturan berhasil dihapus!")
 
 
 def __stats__():
-    return f"{sql.num_chats()} chats have rules set."
+    return f"{sql.num_chats()} obrolan memiliki aturan yang ditetapkan."
 
 
 def __import_data__(chat_id, data):
@@ -109,15 +109,15 @@ def __migrate__(old_chat_id, new_chat_id):
 
 
 def __chat_settings__(chat_id, user_id):
-    return f"This chat has had it's rules set: `{bool(sql.get_rules(chat_id))}`"
+    return f"Obrolan ini telah menetapkan aturannya: `{bool(sql.get_rules(chat_id))}`"
 
 
 __help__ = """
- - /rules: get the rules for this chat.
+ - /rules: dapatkan aturan untuk obrolan ini.
 
-*Admin only:*
- - /setrules <your rules here>: set the rules for this chat.
- - /clearrules: clear the rules for this chat.
+*Admin saja:*
+ - /setrules <aturan Anda di sini>: tetapkan aturan untuk obrolan ini.
+ - /clearrules: hapus aturan untuk obrolan ini.
 """
 
 __mod_name__ = "Rules"
