@@ -1,48 +1,46 @@
-![Enterprise](https://i.imgur.com/IYqzviU.jpg)
-# Kigyō bot
-
+![Chizuru](https://telegra.ph/file/42bd3883928cf71216489.png)
+# Mizuhara Chizuru bot
 
 ![Maintenance](https://img.shields.io/badge/Maintained%3F-Yes-green) [![Join Support!](https://img.shields.io/badge/Support%20Chat-EagleUnion-red)](https://t.me/YorktownEagleUnion) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/cfb691a93a064d9ea753ef2b5fccf797)](https://www.codacy.com/manual/Dank-del/EnterpriseALRobot?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Dank-del/EnterpriseALRobot&amp;utm_campaign=Badge_Grade)
 
-A modular telegram Python bot running on python3 with an sqlalchemy database.
-Concept taken from [Saitama Robot](https://github.com/AnimeKaizoku/SaitamaRobot)
+Bot Python telegram modular yang berjalan di python3 dengan database sqlalchemy.
+Konsep diambil dari [Saitama Robot](https://github.com/AnimeKaizoku/SaitamaRobot)
 
-Originally a marie fork - Kigyō has evolved further and was built to be more useful for Anime Chats. 
+Awalnya marie fork - Chizuru telah berkembang lebih jauh dan dibangun agar lebih berguna untuk Obrolan Anime.
 
-Can be found on telegram as [Kigyōbot](https://t.me/kigyorobot).
+Dapat ditemukan di telegram sebagai [Mizuhara Chizuru](https://t.me/ChizuruChanBot). 
 
-The Support group can be reached out to at [Eagle Union](https://t.me/YorktownEagleUnion), where you can ask for help setting up your bot, discover/request new features, report bugs, and stay in the loop whenever a new update is available. 
+ ## Tombol Deploynya ada disini sayang :) 
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
- 
-
-## Setting up the bot (Read this before trying to use!):
+## Menyiapkan bot (Baca ini sebelum mencoba menggunakan!):
 
 
-# How to setup
+# Bagaimana cara menggunakannya
 <details>
-  <summary>Click to expand!! </summary>
+  <summary>Klik untuk memperluas!! </summary>
   
  
  
- Note: This instruction set is just a copy paste from marie, note that [Eagle Union](https://t.me/YorktownEagleUnion) aims to handle support for @Kigyōbot and now how to setup your own fork, if you find this bit confusing/tough to understand then we recommend you ask a dev, kindly avoid asking how to setup the bot instance in the support chat, it aims to help our own instance of the bot. 
+ Catatan: Set instruksi ini hanya salinan tempel dari marie, perhatikan bahwa bertujuan untuk menangani dukungan untuk @ChizuruChanBot dan sekarang bagaimana mengatur garpu Anda sendiri, jika Anda menemukan ini agak membingungkan/sulit untuk dipahami maka kami sarankan Anda bertanya kepada dev, mohon hindari bertanya bagaimana mengatur instance bot di obrolan dukungan, ini bertujuan untuk membantu contoh bot kami sendiri.
   
-  ## Setting up the bot (Read this before trying to use!):
-Please make sure to use python3.6, as I cannot guarantee everything will work as expected on older python versions!
-This is because markdown parsing is done by iterating through a dict, which are ordered by default in 3.6.
+  ## Menyiapkan bot (Baca ini sebelum mencoba menggunakan!):
+Harap pastikan untuk menggunakan python3.6, karena saya tidak dapat menjamin semuanya akan berfungsi seperti yang diharapkan pada versi python yang lebih lama!
+Ini karena penguraian penurunan harga dilakukan dengan melakukan iterasi melalui dict, yang diurutkan secara default di 3.6.
 
-  ### Configuration
+  ### Konfigurasi
 
-There are two possible ways of configuring your bot: a config.py file, or ENV variables.
+Ada dua cara yang mungkin untuk mengonfigurasi bot Anda: file config.py, atau variabel ENV.
 
-The prefered version is to use a `config.py` file, as it makes it easier to see all your settings grouped together.
-This file should be placed in your `tg_bot` folder, alongside the `__main__.py` file . 
-This is where your bot token will be loaded from, as well as your database URI (if you're using a database), and most of 
-your other settings.
+Versi yang lebih disukai adalah menggunakan file `config.py`, karena akan lebih mudah untuk melihat semua pengaturan Anda dikelompokkan bersama.
+File ini harus ditempatkan di folder `tg_bot` Anda, di samping file` __main __.py`.
+Di sinilah token bot Anda akan dimuat, serta URI database Anda (jika Anda menggunakan database), dan sebagian besar
+pengaturan Anda yang lain.
 
-It is recommended to import sample_config and extend the Config class, as this will ensure your config contains all 
-defaults set in the sample_config, hence making it easier to upgrade.
+Direkomendasikan untuk mengimpor sample_config dan memperluas kelas Config, karena ini akan memastikan konfigurasi Anda berisi semuanya
+default diatur di sample_config, sehingga membuatnya lebih mudah untuk ditingkatkan.
 
-An example `config.py` file could be:
+Contoh file `config.py` bisa jadi:
 ```
 from tg_bot.sample_config import Config
 
@@ -59,142 +57,137 @@ class Development(Config):
     NO_LOAD = ['translation']
 ```
 
-If you can't have a config.py file (EG on heroku), it is also possible to use environment variables.
-The following env variables are supported:
- - `ENV`: Setting this to ANYTHING will enable env variables
+ika Anda tidak dapat memiliki file config.py (EG di heroku), Anda juga dapat menggunakan variabel lingkungan.
+Variabel env berikut ini didukung:
+ - `ENV`: Menyetel ini ke ANYTHING akan mengaktifkan variabel env
 
- - `TOKEN`: Your bot token, as a string.
- - `OWNER_ID`: An integer of consisting of your owner ID
- - `OWNER_USERNAME`: Your username
+ - `TOKEN`: Token bot Anda, sebagai string
+ - `OWNER_ID`: Integer terdiri dari ID pemilik Anda
+ - `OWNER_USERNAME`: Nama pengguna Anda
 
- - `DATABASE_URL`: Your database URL
- - `MESSAGE_DUMP`: optional: a chat where your replied saved messages are stored, to stop people deleting their old 
- - `LOAD`: Space separated list of modules you would like to load
- - `NO_LOAD`: Space separated list of modules you would like NOT to load
- - `WEBHOOK`: Setting this to ANYTHING will enable webhooks when in env mode
- messages
- - `URL`: The URL your webhook should connect to (only needed for webhook mode)
+ - `DATABASE_URL`: URL database Anda
+ - `MESSAGE_DUMP`: opsional: obrolan tempat Anda menyimpan pesan balasan yang disimpan, untuk menghentikan orang menghapus pesan lama mereka
+ - `LOAD`: Daftar modul yang dipisahkan spasi yang ingin Anda muat
+ - `NO_LOAD`: Daftar modul yang dipisahkan spasi yang TIDAK ingin Anda muat
+ - `WEBHOOK`: Menyetel ini ke ANYTHING akan mengaktifkan webhook saat dalam mode env
+ pesan
+ - `URL`: URL yang harus dihubungi webhook Anda (hanya diperlukan untuk mode webhook)
 
- - `SUDO_USERS`: A space separated list of user_ids which should be considered sudo users
- - `SUPPORT_USERS`: A space separated list of user_ids which should be considered support users (can gban/ungban,
- nothing else)
- - `WHITELIST_USERS`: A space separated list of user_ids which should be considered whitelisted - they can't be banned.
- - `DONATION_LINK`: Optional: link where you would like to receive donations.
- - `CERT_PATH`: Path to your webhook certificate
- - `PORT`: Port to use for your webhooks
- - `DEL_CMDS`: Whether to delete commands from users which don't have rights to use that command
- - `STRICT_GBAN`: Enforce gbans across new groups as well as old groups. When a gbanned user talks, he will be banned.
- - `WORKERS`: Number of threads to use. 8 is the recommended (and default) amount, but your experience may vary.
- __Note__ that going crazy with more threads wont necessarily speed up your bot, given the large amount of sql data 
- accesses, and the way python asynchronous calls work.
- - `BAN_STICKER`: Which sticker to use when banning people.
- - `ALLOW_EXCL`: Whether to allow using exclamation marks ! for commands as well as /.
+ - `SUDO_USERS`: Daftar user_ids yang dipisahkan spasi yang harus dianggap sebagai pengguna sudo
+ - `SUPPORT_USERS`: Daftar user_id yang dipisahkan spasi yang seharusnya dianggap mendukung pengguna (dapat gban/ungban,
+ tidak ada lagi)
+ - `WHITELIST_USERS`: Daftar user_id yang dipisahkan spasi, yang harus dipertimbangkan dalam daftar putih - tidak dapat dicekal.
+ - `DONATION_LINK`: Opsional: tautan tempat Anda ingin menerima donasi.
+ - `CERT_PATH`: Jalur ke sertifikat webhook Anda
+ - `PORT`: Porta yang akan digunakan untuk webhook Anda
+ - `DEL_CMDS`: Apakah akan menghapus perintah dari pengguna yang tidak memiliki hak untuk menggunakan perintah itu
+ - `STRICT_GBAN`: Berlakukan gban di seluruh grup baru maupun grup lama. Ketika seorang pengguna gbanned berbicara, dia akan di banned.
+ - `WORKERS`: Jumlah utas yang akan digunakan. 8 adalah jumlah yang disarankan (dan default), tetapi pengalaman Anda mungkin berbeda.
+ __Note__ bahwa menjadi gila dengan lebih banyak utas tidak akan serta merta mempercepat bot Anda, mengingat sejumlah besar data sql
+ mengakses, dan cara kerja panggilan asinkron python.
+ - `BAN_STICKER`: Stiker mana yang digunakan saat melarang orang.
+ - `ALLOW_EXCL`: Apakah akan mengizinkan penggunaan tanda seru! untuk perintah serta /.
+ 
+  ### Dependensi Python
 
-  ### Python dependencies
+Instal dependensi python yang diperlukan dengan pindah ke direktori proyek dan menjalankan:
 
-Install the necessary python dependencies by moving to the project directory and running:
+`pip3 install -r requirement.txt`.
 
-`pip3 install -r requirements.txt`.
-
-This will install all necessary python packages.
+Ini akan menginstal semua paket python yang diperlukan.
 
   ### Database
 
-If you wish to use a database-dependent module (eg: locks, notes, userinfo, users, filters, welcomes),
-you'll need to have a database installed on your system. I use postgres, so I recommend using it for optimal compatibility.
+Jika Anda ingin menggunakan modul yang bergantung pada database (misalnya: kunci, catatan, info pengguna, pengguna, filter, selamat datang),
+Anda harus memiliki database yang terpasang di sistem Anda. Saya menggunakan postgres, jadi saya sarankan menggunakannya untuk kompatibilitas optimal.
 
-In the case of postgres, this is how you would set up a the database on a debian/ubuntu system. Other distributions may vary.
+Dalam kasus postgres, inilah cara Anda mengatur database pada sistem debian/ubuntu. Distribusi lain mungkin berbeda.
 
-- install postgresql:
+- instal postgresql:
 
 `sudo apt-get update && sudo apt-get install postgresql`
 
-- change to the postgres user:
+- ubah ke pengguna postgres:
 
 `sudo su - postgres`
 
-- create a new database user (change YOUR_USER appropriately):
+- buat pengguna database baru (ubah YOUR_USER dengan benar):
 
 `createuser -P -s -e YOUR_USER`
 
-This will be followed by you needing to input your password.
+Ini akan diikuti oleh Anda perlu memasukkan kata sandi Anda.
 
-- create a new database table:
+- buat tabel database baru:
 
-`createdb -O YOUR_USER YOUR_DB_NAME`
+`Createdb -O YOUR_USER YOUR_DB_NAME`
 
-Change YOUR_USER and YOUR_DB_NAME appropriately.
+Ubah YOUR_USER dan YOUR_DB_NAME dengan tepat.
 
-- finally:
+- akhirnya:
 
 `psql YOUR_DB_NAME -h YOUR_HOST YOUR_USER`
 
-This will allow you to connect to your database via your terminal.
-By default, YOUR_HOST should be 0.0.0.0:5432.
+Ini akan memungkinkan Anda untuk terhubung ke database Anda melalui terminal Anda.
+Secara default, YOUR_HOST harus 0.0.0.0:5432.
 
-You should now be able to build your database URI. This will be:
+Anda sekarang harus dapat membangun URI database Anda. Ini akan menjadi:
 
 `sqldbtype://username:pw@hostname:port/db_name`
 
-Replace sqldbtype with whichever db youre using (eg postgres, mysql, sqllite, etc)
-repeat for your username, password, hostname (localhost?), port (5432?), and db name.
+Ganti sqldbtype dengan db mana saja yang Anda gunakan (mis. Postgres, mysql, sqllite, dll)
+ulangi untuk nama pengguna, kata sandi, nama host (localhost?), port (5432?), dan nama db Anda.
 
-  ## Modules
-   ### Setting load order.
+  ## Modul
+   ### Menyetel urutan pemuatan.
 
-The module load order can be changed via the `LOAD` and `NO_LOAD` configuration settings.
-These should both represent lists.
+Urutan pemuatan modul dapat diubah melalui pengaturan konfigurasi `LOAD` dan` NO_LOAD`.
+Keduanya harus mewakili daftar.
 
-If `LOAD` is an empty list, all modules in `modules/` will be selected for loading by default.
+Jika `LOAD` adalah daftar kosong, semua modul dalam`modules/`akan dipilih untuk dimuat secara default.
 
-If `NO_LOAD` is not present, or is an empty list, all modules selected for loading will be loaded.
+Jika `NO_LOAD` tidak ada, atau merupakan daftar kosong, semua modul yang dipilih untuk dimuat akan dimuat.
 
-If a module is in both `LOAD` and `NO_LOAD`, the module will not be loaded - `NO_LOAD` takes priority.
+Jika modul ada di `LOAD` dan` NO_LOAD`, modul tidak akan dimuat - `NO_LOAD` diprioritaskan.
 
-   ### Creating your own modules.
+   ### Membuat modul Anda sendiri.
 
-Creating a module has been simplified as much as possible - but do not hesitate to suggest further simplification.
+Membuat modul telah disederhanakan semaksimal mungkin - tetapi jangan ragu untuk menyarankan penyederhanaan lebih lanjut.
 
-All that is needed is that your .py file be in the modules folder.
+Semua yang diperlukan adalah file.py Anda berada di folder modul.
 
-To add commands, make sure to import the dispatcher via
+Untuk menambahkan perintah, pastikan untuk mengimpor petugas operator melalui
 
-`from tg_bot import dispatcher`.
+`dari tg_bot import dispatcher`.
 
-You can then add commands using the usual
+Anda kemudian dapat menambahkan perintah menggunakan biasa
 
-`dispatcher.add_handler()`.
+`dispatcher.add_handler ()`.
 
-Assigning the `__help__` variable to a string describing this modules' available
-commands will allow the bot to load it and add the documentation for
-your module to the `/help` command. Setting the `__mod_name__` variable will also allow you to use a nicer, user
-friendly name for a module.
+Menetapkan variabel `__help__` ke string yang menjelaskan ketersediaan modul ini
+perintah akan memungkinkan bot memuatnya dan menambahkan dokumentasinya
+modul Anda ke perintah `/help`. Menyetel variabel `__mod_name__` juga akan memungkinkan Anda menggunakan pengguna yang lebih baik
+nama ramah untuk sebuah modul.
 
-The `__migrate__()` function is used for migrating chats - when a chat is upgraded to a supergroup, the ID changes, so 
-it is necessary to migrate it in the db.
+Fungsi `__migrate__ ()` digunakan untuk memigrasi obrolan - saat obrolan ditingkatkan ke supergrup, ID berubah, jadi
+itu perlu untuk memindahkannya di db.
 
-The `__stats__()` function is for retrieving module statistics, eg number of users, number of chats. This is accessed 
-through the `/stats` command, which is only available to the bot owner.
+Fungsi `__stats__ ()` adalah untuk mengambil statistik modul, misalnya jumlah pengguna, jumlah obrolan. Ini diakses
+melalui perintah `/stats`, yang hanya tersedia untuk pemilik bot.
 
-## Starting the bot.
+## Memulai bot.
 
-Once you've setup your database and your configuration is complete, simply run the bat file(if on windows) or run (linux):
+Setelah Anda mengatur database dan konfigurasi Anda selesai, cukup jalankan file bat (jika di windows) atau jalankan (linux):
 
 `python3 -m tg_bot`
 
-You can use [nssm](https://nssm.cc/usage) to install the bot as service on windows and set it to restart on /gitpull 
-Make sure to edit the start and restart bats to your needs. 
-Note: the restart bat requires that User account control be disabled.
+Anda dapat menggunakan [nssm](https://nssm.cc/usage) untuk menginstal bot sebagai layanan di windows dan menyetelnya untuk memulai ulang di / gitpull
+Pastikan untuk mengedit start dan restart kelelawar sesuai kebutuhan Anda.
+Catatan: restart bat mengharuskan kontrol akun Pengguna dinonaktifkan.
 
-For queries or any issues regarding the bot please open an issue ticket or visit us at [Eagle Union](https://t.me/YorktownEagleUnion)
+## Kredit
+Bot ini didasarkan pada karya asli yang dilakukan oleh [PaulSonOfLars]https://github.com/PaulSonOfLars)
+Repo ini baru saja diperbarui agar sesuai dengan komunitas yang berpusat pada Anime. Semua kredit asli diberikan kepada Paul dan dedikasinya, Tanpa usahanya, garpu ini tidak akan mungkin terjadi!
 
-## Credits
-The bot is based of on the original work done by [PaulSonOfLars](https://github.com/PaulSonOfLars)
-This repo was just reamped to suit an Anime-centric community. All original credits go to Paul and his dedication, Without his efforts, this fork would not have been possible!
+Juga, kehilangan kredit yang tepat untuk pengguna daftar hitam yang diambil dari TheRealPhoenixBot (akan menambahkannya nanti, catatan ini mengatakan kecuali jika selesai)
 
-Also, missing proper credit for blacklistusers taken from TheRealPhoenixBot (will add it later, this note says unless its done)
-
-Any other authorship/credits can be seen through the commits.
-
-
-Should any be missing kindly let us know at [Eagle Union](https://t.me/YorktownEagleUnion) or simply submit a pull request on the readme.
+Kepengarangan/kredit lainnya dapat dilihat melalui komit.
