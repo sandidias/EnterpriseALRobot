@@ -16,12 +16,12 @@ def convert(speed):
 def speedtestxyz(bot: Bot, update: Update):
     buttons = [
         [
-            InlineKeyboardButton("Image", callback_data="speedtest_image"),
-            InlineKeyboardButton("Text", callback_data="speedtest_text"),
+            InlineKeyboardButton("Gambar", callback_data="speedtest_image"),
+            InlineKeyboardButton("Teks", callback_data="speedtest_text"),
         ]
     ]
     update.effective_message.reply_text(
-        "Select SpeedTest Mode", reply_markup=InlineKeyboardMarkup(buttons)
+        "Pilih Mode SpeedTest", reply_markup=InlineKeyboardMarkup(buttons)
     )
 
 
@@ -30,12 +30,12 @@ def speedtestxyz_callback(bot: Bot, update: Update):
     query = update.callback_query
 
     if query.from_user.id in DEV_USERS:
-        msg = update.effective_message.edit_text("Running a speedtest....")
+        msg = update.effective_message.edit_text("Menjalankan speedtest....")
         speed = speedtest.Speedtest()
         speed.get_best_server()
         speed.download()
         speed.upload()
-        replymsg = "SpeedTest Results:"
+        replymsg = "Hasil SpeedTest:"
 
         if query.data == "speedtest_image":
             speedtest_image = speed.results.share()
@@ -49,7 +49,7 @@ def speedtestxyz_callback(bot: Bot, update: Update):
             replymsg += f"\nDownload: `{convert(result['download'])}Mb/s`\nUpload: `{convert(result['upload'])}Mb/s`\nPing: `{result['ping']}`"
             update.effective_message.edit_text(replymsg, parse_mode=ParseMode.MARKDOWN)
     else:
-        query.answer("You are required to join Eagle Union to use this command.")
+        query.answer("Anda harus bergabung dengan Saya untuk menggunakan perintah ini.")
 
 
 SPEED_TEST_HANDLER = DisableAbleCommandHandler("speedtest", speedtestxyz)
