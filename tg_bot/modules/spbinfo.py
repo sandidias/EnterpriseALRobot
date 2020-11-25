@@ -46,7 +46,7 @@ async def lookup(client, message):
     try:
         user = await client.get_chat(get_user)
     except PeerIdInvalid:
-        await message.reply_text("I don't know that User.")
+        await message.reply_text("Saya tidak tahu Pengguna itu.")
         sleep(2)
         return
     url = f'https://api.intellivoid.net/spamprotection/v1/lookup?query={user.id}'
@@ -54,7 +54,7 @@ async def lookup(client, message):
     response = a['success']
     if response == True:
         date = a["results"]["last_updated"]
-        stats = f'**◢ Intellivoid• SpamProtection Info**:\n'
+        stats = f'**◢ Intellivoid• Info SpamProtection**:\n'
         stats += f' - **Updated on**: `{datetime.fromtimestamp(date).strftime("%Y-%m-%d %I:%M:%S %p")}`\n'
         stats += f' - **Chat Info**: [Link](t.me/SpamProtectionBot/?start=00_{user.id})\n'
         
@@ -80,5 +80,5 @@ async def lookup(client, message):
         stats += f'**PTID**:\n`{a["results"]["private_telegram_id"]}`\n'
         await message.reply_text(stats, disable_web_page_preview=True)
     else:
-        await message.reply_text('`cannot reach SpamProtection API`')
+        await message.reply_text('`tidak dapat menjangkau SpamProtection API`')
         await sleep(3)       
