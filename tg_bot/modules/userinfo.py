@@ -31,11 +31,11 @@ def about_me(bot: Bot, update: Update, args: List[str]):
     elif message.reply_to_message:
         username = message.reply_to_message.from_user.first_name
         update.effective_message.reply_text(
-            f"{username} hasn't set an info message about themselves yet!"
+            f"{username} belum menyetel pesan info tentang diri mereka sendiri!"
         )
     else:
         update.effective_message.reply_text(
-            "You haven't set an info message about yourself yet!"
+            "Anda belum menyetel pesan info tentang diri Anda!"
         )
 
 
@@ -44,7 +44,7 @@ def set_about_me(bot: Bot, update: Update):
     message = update.effective_message
     user_id = message.from_user.id
     if user_id in (777000, 1087968824):
-        message.reply_text("Don't set info for Telegram bots!")
+        message.reply_text("Jangan atur info untuk bot Telegram!")
         return
     if message.reply_to_message:
         repl_message = message.reply_to_message
@@ -59,12 +59,12 @@ def set_about_me(bot: Bot, update: Update):
         if len(info[1]) < MAX_MESSAGE_LENGTH // 4:
             sql.set_user_me_info(user_id, info[1])
             if user_id == bot.id:
-                message.reply_text("Updated my info!")
+                message.reply_text("Memperbarui info saya!")
             else:
-                message.reply_text("Updated your info!")
+                message.reply_text("Memperbarui info Anda!")
         else:
             message.reply_text(
-                "The info needs to be under {} characters! You have {}.".format(
+                "Info harus kurang dari {} karakter! Kamu punya {}.".format(
                     MAX_MESSAGE_LENGTH // 4, len(info[1])
                 )
             )
@@ -90,11 +90,11 @@ def about_bio(bot: Bot, update: Update, args: List[str]):
     elif message.reply_to_message:
         username = user.first_name
         update.effective_message.reply_text(
-            f"{username} hasn't had a message set about themselves yet!"
+            f"{username} belum ada pesan tentang diri mereka sendiri!"
         )
     else:
         update.effective_message.reply_text(
-            "You haven't had a bio set about yourself yet!"
+            "Anda belum memiliki set bio tentang diri Anda sendiri!"
         )
 
 
@@ -107,12 +107,12 @@ def set_about_bio(bot: Bot, update: Update):
         repl_message = message.reply_to_message
         user_id = repl_message.from_user.id
         if user_id in (777000, 1087968824):
-            message.reply_text("Don't set bio for Telegram bots!")
+            message.reply_text("Jangan setel bio untuk bot Telegram!")
             return
         
         if user_id == message.from_user.id:
             message.reply_text(
-                "Ha, you can't set your own bio! You're at the mercy of others here..."
+                "Ha, Anda tidak dapat mengatur biografi Anda sendiri! Anda berada di bawah belas kasihan orang lain di sini..."
             )
             return
 
@@ -122,7 +122,7 @@ def set_about_bio(bot: Bot, update: Update):
             and sender_id not in DEV_USERS
         ):
             message.reply_text(
-                "Erm... yeah, I only trust sudo users or developers to set my bio."
+                "Emm ... ya, saya hanya mempercayai pengguna sudo atau pengembang untuk mengatur bio saya."
             )
             return
 
@@ -135,36 +135,36 @@ def set_about_bio(bot: Bot, update: Update):
             if len(bio[1]) < MAX_MESSAGE_LENGTH // 4:
                 sql.set_user_bio(user_id, bio[1])
                 message.reply_text(
-                    "Updated {}'s bio!".format(repl_message.from_user.first_name)
+                    "Biografi {} diperbarui!".format(repl_message.from_user.first_name)
                 )
             else:
                 message.reply_text(
-                    "A bio needs to be under {} characters! You tried to set {}.".format(
+                    "Biografi harus kurang dari {} karakter! Anda mencoba untuk mengatur {}.".format(
                         MAX_MESSAGE_LENGTH // 4, len(bio[1])
                     )
                 )
     else:
-        message.reply_text("Reply to someone's message to set their bio!")
+        message.reply_text("Balas pesan seseorang untuk menyetel biografi mereka!")
 
 
 def __user_info__(user_id):
     bio = html.escape(sql.get_user_bio(user_id) or "")
     me = html.escape(sql.get_user_me_info(user_id) or "")
     if bio and me:
-        return f"\n<b>About user:</b>\n{me}\n<b>What others say:</b>\n{bio}\n"
+        return f"\n<b>Tentang pengguna:</b>\n{me}\n<b>Apa yang dikatakan orang lain:</b>\n{bio}\n"
     elif bio:
-        return f"\n<b>What others say:</b>\n{bio}\n"
+        return f"\n<b>Apa yang dikatakan orang lain:</b>\n{bio}\n"
     elif me:
-        return f"\n<b>About user:</b>\n{me}\n"
+        return f"\n<b>Tentang pengguna:</b>\n{me}\n"
     else:
         return "\n"
 
 
 __help__ = """
- - /setbio <text>: while replying, will save another user's bio
- - /bio: will get your or another user's bio. This cannot be set by yourself.
- - /setme <text>: will set your info
- - /me: will get your or another user's info
+ - /setbio <teks>: sambil membalas, akan menyimpan bio pengguna lain
+ - /bio: akan mendapatkan bio Anda atau pengguna lain. Ini tidak dapat diatur sendiri.
+ - /setme <teks>: akan mengatur info Anda
+ - /me: akan mendapatkan info Anda atau pengguna lain
 """
 
 SET_BIO_HANDLER = DisableAbleCommandHandler("setbio", set_about_bio)
