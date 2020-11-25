@@ -73,25 +73,25 @@ def send(update, message, keyboard, backup_message):
         if excp.message == "Button_url_invalid":
             msg = update.effective_message.reply_text(
                 markdown_parser(
-                    backup_message + "\nNote: the current message has an invalid url "
-                    "in one of its buttons. Please update."
+                    backup_message + "\nCatatan: pesan saat ini memiliki url yang tidak valid "
+                    "di salah satu tombolnya. Harap perbarui."
                 ),
                 parse_mode=ParseMode.MARKDOWN,
             )
         elif excp.message == "Unsupported url protocol":
             msg = update.effective_message.reply_text(
                 markdown_parser(
-                    backup_message + "\nNote: the current message has buttons which "
-                    "use url protocols that are unsupported by "
-                    "telegram. Please update."
+                    backup_message + "\nCatatan: pesan saat ini memiliki tombol yang "
+                    "gunakan protokol url yang tidak didukung oleh "
+                    "telegram. Harap perbarui."
                 ),
                 parse_mode=ParseMode.MARKDOWN,
             )
-        elif excp.message == "Wrong url host":
+        elif excp.message == "Host url salah":
             msg = update.effective_message.reply_text(
                 markdown_parser(
-                    backup_message + "\nNote: the current message has some bad urls. "
-                    "Please update."
+                    backup_message + "\nCatatan: pesan saat ini memiliki beberapa url yang buruk. "
+                    "Harap perbarui."
                 ),
                 parse_mode=ParseMode.MARKDOWN,
             )
@@ -101,8 +101,8 @@ def send(update, message, keyboard, backup_message):
         else:
             msg = update.effective_message.reply_text(
                 markdown_parser(
-                    backup_message + "\nNote: An error occured when sending the "
-                    "custom message. Please update."
+                    backup_message + "\nCatatan: Terjadi kesalahan saat mengirim "
+                    "pesan khusus. Harap perbarui."
                 ),
                 parse_mode=ParseMode.MARKDOWN,
             )
@@ -140,17 +140,17 @@ def new_member(bot: Bot, update: Update, job_queue: JobQueue):
 
             # Give the owner a special welcome
             if new_mem.id == OWNER_ID:
-                update.effective_message.reply_text("Oh, Genos? Let's get this moving.")
+                update.effective_message.reply_text("Oh, Kamu ya? Mari kita mulai.")
                 welcome_log = (
                     f"{html.escape(chat.title)}\n"
                     f"#USER_JOINED\n"
-                    f"Bot Owner just joined the chat"
+                    f"Pemilik Bot baru saja bergabung dalam obrolan"
                 )
 
             # Welcome Devs
             elif new_mem.id in DEV_USERS:
                 update.effective_message.reply_text(
-                    "Whoa! A member of the Eagle Union just joined!"
+                    "Wah! Seorang anggota baru saja bergabung!"
                 )
 
             # Welcome Sudos
@@ -179,7 +179,7 @@ def new_member(bot: Bot, update: Update, job_queue: JobQueue):
 
             # Welcome yourself
             elif new_mem.id == bot.id:
-                update.effective_message.reply_text("Thanks for adding me! Join our support chat @YorkTownEagleUnion for support.. <3")
+                update.effective_message.reply_text("Terima kasih telah menambahkan saya!")
 
             else:
                 # If welcome message is media, send with appropriate function
@@ -281,12 +281,12 @@ def new_member(bot: Bot, update: Update, job_queue: JobQueue):
                     )
                     new_join_mem = f"[{escape_markdown(new_mem.first_name)}](tg://user?id={user.id})"
                     message = msg.reply_text(
-                        f"{new_join_mem}, click the button below to prove you're human.\nYou have 160 seconds.",
+                        f"{new_join_mem}, klik tombol di bawah untuk membuktikan bahwa Anda adalah manusia.\nWaktumu 160 detik.",
                         reply_markup=InlineKeyboardMarkup(
                             [
                                 {
                                     InlineKeyboardButton(
-                                        text="Yes, I'm human.",
+                                        text="Ya, saya manusia.",
                                         callback_data=f"user_join_({new_mem.id})",
                                     )
                                 }
@@ -328,7 +328,7 @@ def new_member(bot: Bot, update: Update, job_queue: JobQueue):
         return (
             f"{html.escape(chat.title)}\n"
             f"#USER_JOINED\n"
-            f"<b>User</b>: {mention_html(user.id, user.first_name)}\n"
+            f"<b>Pengguna</b>: {mention_html(user.id, user.first_name)}\n"
             f"<b>ID</b>: <code>{user.id}</code>"
         )
 
@@ -347,7 +347,7 @@ def check_not_bot(member, chat_id, message_id, bot, job):
 
         try:
             bot.edit_message_text(
-                "*kicks user*\nThey can always rejoin and try.",
+                "*pengguna ditendang*\nMereka selalu dapat bergabung kembali dan mencoba.",
                 chat_id=chat_id,
                 message_id=message_id,
             )
@@ -379,7 +379,7 @@ def left_member(bot: Bot, update: Update):
 
             # Give the owner a special goodbye
             if left_mem.id == OWNER_ID:
-                update.effective_message.reply_text("Oi! Genos! He left..")
+                update.effective_message.reply_text("Oi! @admin! Dia pergi..")
                 return
 
             # Give the devs a special goodbye
@@ -452,8 +452,8 @@ def welcome(bot: Bot, update: Update, args: List[str]):
         noformat = True
         pref, welcome_m, welcome_type = sql.get_welc_pref(chat.id)
         update.effective_message.reply_text(
-            f"This chat has it's welcome setting set to: `{pref}`.\n"
-            f"*The welcome message (not filling the {{}}) is:*",
+            f"Obrolan ini memiliki setelan selamat datang yang disetel ke: `{pref}`.\n"
+            f"*Pesan selamat datang (tidak mengisi {{}}) :*",
             parse_mode=ParseMode.MARKDOWN,
         )
 
@@ -482,18 +482,18 @@ def welcome(bot: Bot, update: Update, args: List[str]):
         if args[0].lower() in ("on", "yes"):
             sql.set_welc_preference(str(chat.id), True)
             update.effective_message.reply_text(
-                "Okay! I'll greet members when they join."
+                "Baik! Saya akan menyapa anggota saat mereka bergabung."
             )
 
         elif args[0].lower() in ("off", "no"):
             sql.set_welc_preference(str(chat.id), False)
             update.effective_message.reply_text(
-                "I'll go loaf around and not welcome anyone then."
+                "Aku akan pergi bermalas-malasan dan tidak menyambut siapa pun."
             )
 
         else:
             update.effective_message.reply_text(
-                "I understand 'on/yes' or 'off/no' only!"
+                "Saya hanya mengerti'on/yes' atau 'off/no' saja!"
             )
 
 
@@ -506,8 +506,8 @@ def goodbye(bot: Bot, update: Update, args: List[str]):
         noformat = True
         pref, goodbye_m, goodbye_type = sql.get_gdbye_pref(chat.id)
         update.effective_message.reply_text(
-            f"This chat has it's goodbye setting set to: `{pref}`.\n"
-            f"*The goodbye  message (not filling the {{}}) is:*",
+            f"Obrolan ini memiliki setelan selamat tinggal yang disetel ke: `{pref}`.\n"
+            f"*Pesan selamat tinggal (tidak mengisi {{}}):*",
             parse_mode=ParseMode.MARKDOWN,
         )
 
@@ -544,7 +544,7 @@ def goodbye(bot: Bot, update: Update, args: List[str]):
         else:
             # idek what you're writing, say yes or no
             update.effective_message.reply_text(
-                "I understand 'on/yes' or 'off/no' only!"
+                "Saya mengerti 'on/yes' atau 'off/no' saja!"
             )
 
 
@@ -559,17 +559,17 @@ def set_welcome(bot: Bot, update: Update) -> str:
     text, data_type, content, buttons = get_welcome_type(msg)
 
     if data_type is None:
-        msg.reply_text("You didn't specify what to reply with!")
+        msg.reply_text("Anda tidak menentukan harus membalas dengan apa!")
         return ""
 
     sql.set_custom_welcome(chat.id, content or text, data_type, buttons)
-    msg.reply_text("Successfully set custom welcome message!")
+    msg.reply_text("Berhasil menyetel pesan selamat datang!")
 
     return (
         f"<b>{html.escape(chat.title)}:</b>\n"
         f"#SET_WELCOME\n"
         f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-        f"Set the welcome message."
+        f"Atur pesan selamat datang."
     )
 
 
@@ -582,14 +582,14 @@ def reset_welcome(bot: Bot, update: Update) -> str:
 
     sql.set_custom_welcome(chat.id, sql.DEFAULT_WELCOME, sql.Types.TEXT)
     update.effective_message.reply_text(
-        "Successfully reset welcome message to default!"
+        "Berhasil menyetel ulang pesan selamat datang ke default!"
     )
 
     return (
         f"<b>{html.escape(chat.title)}:</b>\n"
         f"#RESET_WELCOME\n"
         f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-        f"Reset the welcome message to default."
+        f"Setel ulang pesan selamat datang ke default."
     )
 
 
@@ -603,16 +603,16 @@ def set_goodbye(bot: Bot, update: Update) -> str:
     text, data_type, content, buttons = get_welcome_type(msg)
 
     if data_type is None:
-        msg.reply_text("You didn't specify what to reply with!")
+        msg.reply_text("Anda tidak menentukan harus membalas dengan apa!")
         return ""
 
     sql.set_custom_gdbye(chat.id, content or text, data_type, buttons)
-    msg.reply_text("Successfully set custom goodbye message!")
+    msg.reply_text("Berhasil menyetel pesan selamat tinggal!")
     return (
         f"<b>{html.escape(chat.title)}:</b>\n"
         f"#SET_GOODBYE\n"
         f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-        f"Set the goodbye message."
+        f"Atur pesan selamat tinggal."
     )
 
 
@@ -625,14 +625,14 @@ def reset_goodbye(bot: Bot, update: Update) -> str:
 
     sql.set_custom_gdbye(chat.id, sql.DEFAULT_GOODBYE, sql.Types.TEXT)
     update.effective_message.reply_text(
-        "Successfully reset goodbye message to default!"
+        "Berhasil mengatur ulang pesan selamat tinggal ke default!"
     )
 
     return (
         f"<b>{html.escape(chat.title)}:</b>\n"
         f"#RESET_GOODBYE\n"
         f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-        f"Reset the goodbye message."
+        f"Setel ulang pesan selamat tinggal."
     )
 
 
@@ -647,28 +647,28 @@ def welcomemute(bot: Bot, update: Update, args: List[str]) -> str:
     if len(args) >= 1:
         if args[0].lower() in ("off", "no"):
             sql.set_welcome_mutes(chat.id, False)
-            msg.reply_text("I will no longer mute people on joining!")
+            msg.reply_text("Saya tidak akan lagi menonaktifkan orang saat bergabung!")
             return (
                 f"<b>{html.escape(chat.title)}:</b>\n"
                 f"#WELCOME_MUTE\n"
                 f"<b>• Admin:</b> {mention_html(user.id, user.first_name)}\n"
-                f"Has toggled welcome mute to <b>OFF</b>."
+                f"Telah mengaktifkan bisukan selamat datang ke <b>OFF</b>."
             )
         elif args[0].lower() in ["soft"]:
             sql.set_welcome_mutes(chat.id, "soft")
             msg.reply_text(
-                "I will restrict users' permission to send media for 24 hours."
+                "Saya akan membatasi izin pengguna untuk mengirim media selama 24 jam."
             )
             return (
                 f"<b>{html.escape(chat.title)}:</b>\n"
                 f"#WELCOME_MUTE\n"
                 f"<b>• Admin:</b> {mention_html(user.id, user.first_name)}\n"
-                f"Has toggled welcome mute to <b>SOFT</b>."
+                f"Telah mengaktifkan bisukan selamat datang ke <b>SOFT</b>."
             )
         elif args[0].lower() in ["strong"]:
             sql.set_welcome_mutes(chat.id, "strong")
             msg.reply_text(
-                "I will now mute people when they join until they prove they're not a bot.\nThey will have 160seconds before they get kicked."
+                "Sekarang saya akan membisukan orang ketika mereka bergabung sampai mereka membuktikan bahwa mereka bukan bot.\nMereka memiliki waktu 160 detik sebelum ditendang."
             )
             return (
                 f"<b>{html.escape(chat.title)}:</b>\n"
@@ -678,15 +678,15 @@ def welcomemute(bot: Bot, update: Update, args: List[str]) -> str:
             )
         else:
             msg.reply_text(
-                "Please enter `off`/`no`/`soft`/`strong`!",
+                "Silahkan masukkan `off`/`no`/`soft`/`strong`!",
                 parse_mode=ParseMode.MARKDOWN,
             )
             return ""
     else:
         curr_setting = sql.welcome_mutes(chat.id)
         reply = (
-            f"\n Give me a setting!\nChoose one out of: `off`/`no` or `soft` or `strong` only! \n"
-            f"Current setting: `{curr_setting}`"
+            f"\n Beri saya pengaturan!\nPilih salah satu dari: `off`/`no` atau `soft` atau `strong` saja! \n"
+            f"Pengaturan saat ini: `{curr_setting}`"
         )
         msg.reply_text(reply, parse_mode=ParseMode.MARKDOWN)
         return ""
@@ -703,34 +703,34 @@ def clean_welcome(bot: Bot, update: Update, args: List[str]) -> str:
         clean_pref = sql.get_clean_pref(chat.id)
         if clean_pref:
             update.effective_message.reply_text(
-                "I should be deleting welcome messages up to two days old."
+                "Saya harus menghapus pesan selamat datang yang berumur hingga dua hari."
             )
         else:
             update.effective_message.reply_text(
-                "I'm currently not deleting old welcome messages!"
+                "Saat ini saya tidak menghapus pesan selamat datang yang lama!"
             )
         return ""
 
     if args[0].lower() in ("on", "yes"):
         sql.set_clean_welcome(str(chat.id), True)
-        update.effective_message.reply_text("I'll try to delete old welcome messages!")
+        update.effective_message.reply_text("Saya akan mencoba menghapus pesan selamat datang yang lama!")
         return (
             f"<b>{html.escape(chat.title)}:</b>\n"
             f"#CLEAN_WELCOME\n"
             f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-            f"Has toggled clean welcomes to <code>ON</code>."
+            f"Telah toggled menyambut bersih <code>ON</code>."
         )
     elif args[0].lower() in ("off", "no"):
         sql.set_clean_welcome(str(chat.id), False)
-        update.effective_message.reply_text("I won't delete old welcome messages.")
+        update.effective_message.reply_text("Saya tidak akan menghapus pesan selamat datang yang lama.")
         return (
             f"<b>{html.escape(chat.title)}:</b>\n"
             f"#CLEAN_WELCOME\n"
             f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-            f"Has toggled clean welcomes to <code>OFF</code>."
+            f"Telah toggled menyambut bersih <code>OFF</code>."
         )
     else:
-        update.effective_message.reply_text("I understand 'on/yes' or 'off/no' only!")
+        update.effective_message.reply_text("Saya mengerti 'on/yes' atau 'off/no' saja!")
         return ""
 
 
@@ -747,7 +747,7 @@ def user_button(bot: Bot, update: Update):
         member_dict = VERIFIED_USER_WAITLIST.pop(user.id)
         member_dict["status"] = True
         VERIFIED_USER_WAITLIST.update({user.id: member_dict})
-        query.answer(text="Yeet! You're a human, unmuted!")
+        query.answer(text="Uh! Anda seorang manusia, disuarakan!")
         bot.restrict_chat_member(
             chat.id,
             user.id,
@@ -776,42 +776,42 @@ def user_button(bot: Bot, update: Update):
                     sql.set_clean_welcome(chat.id, sent.message_id)
 
     else:
-        query.answer(text="You're not allowed to do this!")
+        query.answer(text="Anda tidak diizinkan melakukan ini!")
 
 
 WELC_HELP_TXT = (
-    "Your group's welcome/goodbye messages can be personalised in multiple ways. If you want the messages"
-    " to be individually generated, like the default welcome message is, you can use *these* variables:\n"
-    " - `{first}`: this represents the user's *first* name\n"
-    " - `{last}`: this represents the user's *last* name. Defaults to *first name* if user has no "
-    "last name.\n"
-    " - `{fullname}`: this represents the user's *full* name. Defaults to *first name* if user has no "
-    "last name.\n"
-    " - `{username}`: this represents the user's *username*. Defaults to a *mention* of the user's "
+    "Pesan selamat datang/selamat tinggal grup Anda dapat dipersonalisasi dengan berbagai cara. Jika Anda menginginkan pesan"
+    " untuk dibuat satu per satu, seperti pesan selamat datang default, Anda dapat menggunakan variabel *ini*:\n"
+    " - `{first}`: ini mewakili nama *depan* pengguna\n"
+    " - `{last}`: ni mewakili nama *belakang* pengguna. Default-nya adalah *nama depan* jika pengguna tidak memiliki "
+    "nama belakang.\n"
+    " - `{fullname}`: ini mewakili nama *lengkap* pengguna. Default-nya adalah *nama depan* jika pengguna tidak memiliki "
+    "nama belakang.\n"
+    " - `{username}`: ini mewakili *nama pengguna* pengguna. Secara default, *sebutan* pengguna "
     "first name if has no username.\n"
-    " - `{mention}`: this simply *mentions* a user - tagging them with their first name.\n"
-    " - `{id}`: this represents the user's *id*\n"
-    " - `{count}`: this represents the user's *member number*.\n"
-    " - `{chatname}`: this represents the *current chat name*.\n"
-    "\nEach variable MUST be surrounded by `{}` to be replaced.\n"
-    "Welcome messages also support markdown, so you can make any elements bold/italic/code/links. "
-    "Buttons are also supported, so you can make your welcomes look awesome with some nice intro "
-    "buttons.\n"
-    f"To create a button linking to your rules, use this: `[Rules](buttonurl://t.me/{dispatcher.bot.username}?start=group_id)`. "
-    "Simply replace `group_id` with your group's id, which can be obtained via /id, and you're good to "
-    "go. Note that group ids are usually preceded by a `-` sign; this is required, so please don't "
-    "remove it.\n"
-    "If you're feeling fun, you can even set images/gifs/videos/voice messages as the welcome message by "
-    "replying to the desired media, and calling /setwelcome."
+    " - `{mention}`: ini hanya *menyebutkan* pengguna - memberi tag mereka dengan nama depan mereka.\n"
+    " - `{id}`: ini mewakili *id* pengguna\n"
+    " - `{count}`: ini mewakili *nomor anggota* pengguna.\n"
+    " - `{chatname}`: ini mewakili *nama obrolan saat ini*.\n"
+    "\nSetiap variabel HARUS diapit oleh `{}` untuk diganti.\n"
+    "Pesan selamat datang juga mendukung penurunan harga, sehingga Anda dapat membuat elemen apa pun bold/italic/code/links. "
+    "Tombol juga didukung, sehingga Anda dapat membuat sambutan Anda terlihat luar biasa dengan beberapa tombol intro yang "
+    "bagus.\n"
+    f"Untuk membuat tombol yang menautkan ke aturan Anda, gunakan ini: `[Rules](buttonurl://t.me/{dispatcher.bot.username}?start=group_id)`. "
+    "Cukup ganti `group_id` dengan id grup Anda, yang dapat diperoleh melalui /id, dan Anda baik-baik saja "
+    "Pergilah. Perhatikan bahwa id grup biasanya diawali dengan tanda `-`; ini diperlukan, jadi tolong jangan "
+    "dihapus.\n"
+    "Jika Anda merasa senang, Anda bahkan dapat mengatur gambar/gif/video/pesan suara sebagai pesan selamat datang "
+    "membalas media yang diinginkan, dan menelepon /setwelcome."
 )
 
 WELC_MUTE_HELP_TXT = (
-    "You can get the bot to mute new people who join your group and hence prevent spambots from flooding your group. "
-    "The following options are possible:\n"
-    "- `/welcomemute soft`: restricts new members from sending media for 24 hours.\n"
-    "- `/welcomemute strong`: mutes new members till they tap on a button thereby verifying they're human.\n"
-    "- `/welcomemute off`: turns off welcomemute.\n"
-    "`Note:` Strong mode kicks a user from the chat if they dont verify in 160seconds. They can always rejoin though"
+    "Anda bisa mendapatkan bot untuk menonaktifkan orang baru yang bergabung dengan grup Anda dan karenanya mencegah robot spam membanjiri grup Anda. "
+    "Opsi berikut dimungkinkan:\n"
+    "- `/welcomemute soft`: rmembatasi anggota baru mengirim media selama 24 jam.\n"
+    "- `/welcomemute strong`: membungkam anggota baru sampai mereka mengetuk tombol sehingga memverifikasi bahwa mereka manusia.\n"
+    "- `/welcomemute off`: mematikan selamat datang.\n"
+    "`Catatan` Mode kuat menendang pengguna dari obrolan jika mereka tidak memverifikasi dalam 160 detik. Mereka selalu bisa bergabung kembali"
 )
 
 
@@ -849,26 +849,26 @@ def __chat_settings__(chat_id, user_id):
     welcome_pref, _, _ = sql.get_welc_pref(chat_id)
     goodbye_pref, _, _ = sql.get_gdbye_pref(chat_id)
     return (
-        "This chat has it's welcome preference set to `{}`.\n"
-        "It's goodbye preference is `{}`.".format(welcome_pref, goodbye_pref)
+        "Obrolan ini memiliki preferensi selamat datang yang disetel ke `{}`.\n"
+        "Ini preferensi selamat tinggal `{}`.".format(welcome_pref, goodbye_pref)
     )
 
 
 __help__ = """
 {}
 
-*Admin only:*
- - /welcome <on/off>: enable/disable welcome messages.
- - /welcome: shows current welcome settings.
- - /welcome noformat: shows current welcome settings, without the formatting - useful to recycle your welcome messages!
- - /goodbye -> same usage and args as /welcome.
- - /setwelcome <sometext>: set a custom welcome message. If used replying to media, uses that media.
- - /setgoodbye <sometext>: set a custom goodbye message. If used replying to media, uses that media.
- - /resetwelcome: reset to the default welcome message.
- - /resetgoodbye: reset to the default goodbye message.
- - /cleanwelcome <on/off>: On new member, try to delete the previous welcome message to avoid spamming the chat.
- - /welcomemutehelp: gives information about welcome mutes.
- - /welcomehelp: view more formatting information for custom welcome/goodbye messages.
+*Admin saja:*
+ - /welcome <on/off>: aktifkan/nonaktifkan pesan selamat datang
+ - /welcome: menunjukkan pengaturan selamat datang saat ini.
+ - /welcome noformat: menunjukkan pengaturan selamat datang saat ini, tanpa pemformatan - berguna untuk mendaur ulang pesan selamat datang Anda!
+ - /goodbye -> penggunaan dan argumen yang sama seperti /welcome.
+ - /setwelcome <beberapa teks>: setel pesan selamat datang khusus. Jika digunakan membalas media, gunakan media itu.
+ - /setgoodbye <beberapa teks>: setel pesan selamat tinggal khusus. Jika digunakan membalas media, gunakan media itu.
+ - /resetwelcome: setel ulang ke pesan selamat datang default.
+ - /resetgoodbye: reset ke pesan selamat tinggal default.
+ - /cleanwelcome <on/off>: Pada anggota baru, coba hapus pesan selamat datang sebelumnya untuk menghindari spamming pada obrolan.
+ - /welcomemutehelp: memberikan informasi tentang pembungkaman selamat datang.
+ - /welcomehelp: lihat lebih banyak informasi pemformatan untuk pesan selamat datang / selamat tinggal khusus.
 """.format(
     WELC_HELP_TXT
 )
