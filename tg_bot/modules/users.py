@@ -38,7 +38,7 @@ def get_user_id(username):
                     return userdat.id
 
             except BadRequest as excp:
-                if excp.message == "Chat not found":
+                if excp.message == "Obrolan tidak ditemukan":
                     pass
                 else:
                     LOGGER.exception("Error extracting user ID")
@@ -68,7 +68,7 @@ def broadcast(bot: Bot, update: Update):
                 )
 
         update.effective_message.reply_text(
-            f"Broadcast complete. {failed} groups failed to receive the message, probably due to being kicked."
+            f"Siaran selesai. {failed} kelompok gagal menerima pesan, mungkin karena ditendang."
         )
 
 
@@ -96,7 +96,7 @@ def log_user(bot: Bot, update: Update):
 def chats(bot: Bot, update: Update):
 
     all_chats = sql.get_all_chats() or []
-    chatfile = "List of chats.\n"
+    chatfile = "Daftar obrolan.\n"
     for chat in all_chats:
         chatfile += f"{chat.chat_name} - ({chat.chat_id})\n"
 
@@ -105,7 +105,7 @@ def chats(bot: Bot, update: Update):
         update.effective_message.reply_document(
             document=output,
             filename="chatlist.txt",
-            caption="Here is the list of chats in my Hit List.",
+            caption="Berikut adalah daftar obrolan di Hit List saya.",
         )
 
 
