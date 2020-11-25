@@ -18,7 +18,7 @@ def wall(bot: Bot, update: Update, args):
     msg_id = update.effective_message.message_id
     query = " ".join(args)
     if not query:
-        msg.reply_text("Please enter a query!")
+        msg.reply_text("Harap masukkan judul yang ingin dicari!")
         return
     else:
         caption = query
@@ -27,11 +27,11 @@ def wall(bot: Bot, update: Update, args):
             f"https://wall.alphacoders.com/api2.0/get.php?auth={WALL_API}&method=search&term={term}"
         ).json()
         if not json_rep.get("success"):
-            msg.reply_text("An error occurred! Report this @YorktownEagleUnion")
+            msg.reply_text("Terjadi kesalahan!")
         else:
             wallpapers = json_rep.get("wallpapers")
             if not wallpapers:
-                msg.reply_text("No results found! Refine your search.")
+                msg.reply_text("Tidak ada hasil yang ditemukan! Persempit pencarian Anda.")
                 return
             else:
                 index = randint(0, len(wallpapers) - 1)  # Choose random index
