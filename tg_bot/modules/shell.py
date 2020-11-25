@@ -21,7 +21,7 @@ def shell(command):
 def shellExecute(bot: Bot, update: Update):
     cmd = update.message.text.split(" ", maxsplit=1)
     if len(cmd) == 1:
-        sendMessage("No command provided!", bot, update)
+        sendMessage("Tidak ada perintah yang diberikan!", bot, update)
         return
     LOGGER.info(cmd)
     output = shell(cmd[1])
